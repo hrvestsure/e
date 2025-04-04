@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Sure</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+        <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+    <nav class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4">
+        <span class="px-6 py-2 font-semibold text-xl text-white transition-transform transform hover:-translate-y-1 whitespace-nowrap">
+            Harvest Sure&#8482;
+        </span>
+
+        <div class="flex-1"></div>
+
+        <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center w-auto">
+            <a href="about.html"><li class="border-2 border-slate-200 hover:border-2 hover:border-slate-800 transform-gpu transition-transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px]">About</li></a>
+            <a href="ordertemp.html"><li class="border-2 border-slate-200 hover:border-2 hover:border-slate-800 transform-gpu transition-transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px]">Order</li></a>
+        </ul>
+
+        <button id="hamburger" class="lg:hidden text-white ml-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </nav>
+
+    <ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
+        <a href="about.html"><li class="border-2 border-slate-200 hover:border-2 hover:border-slate-800 transform-gpu transition-transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px]">About</li></a>
+        <a href="ordertemp.html"><li class="border-2 border-slate-200 hover:border-2 hover:border-slate-800 transform-gpu transition-transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px]">Order</li></a>
+    </ul>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden'); // Show or hide the menu
+        });
+    </script>
+</body>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Pure. Natural. Trusted.</h1>
+            <p>Experience the essence of nature with our premium cold pressed oils.</p>
+            <a href="ordertemp.html" class="btn">Place an Order</a>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>At <strong>Harvest Sure</strong>, we are dedicated to providing high-quality, natural cold pressed oils sourced from the finest ingredients. Our mission is to bring purity and health to every home.</p>
+                <a href="about.html" class="btn">About Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="order" class="order-section">
+        <div class="order-content">
+            <h2>Order Your Oil</h2>
+            <p>Get premium, organic oils delivered to your doorstep.</p>
+            <a href="ordertemp.html" class="btn">🛒 Order Now</a>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2025 Eugene Biotech PVT. LTD. All rights reserved.</p>
+    </footer>
+</body>
+</html>
