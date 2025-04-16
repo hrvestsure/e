@@ -92,29 +92,6 @@
         padding-top: 1rem;
         border-top: 2px solid rgba(255, 255, 255, 0.2);
       }
-      .verification-section {
-        grid-column: 1 / -1;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        text-align: center;
-      }
-      .otp-input-group {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin: 1rem 0;
-      }
-      .otp-input {
-        width: 3rem;
-        height: 3rem;
-        text-align: center;
-        font-size: 1.5rem;
-        border: none;
-        border-radius: 0.5rem;
-        background: rgba(255, 255, 255, 0.9);
-      }
       .button-group {
         grid-column: 1 / -1;
         display: flex;
@@ -131,6 +108,11 @@
         border-radius: 0.5rem;
         border: none;
         cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .submit-btn:hover {
+        background: white;
+        transform: translateY(-2px);
       }
       .hidden {
         display: none;
@@ -244,30 +226,8 @@
             </div>
           </div>
 
-          <div id="verificationSection" class="verification-section hidden">
-            <h3>Phone Verification</h3>
-            <p>Enter the 4-digit code sent to your phone</p>
-            <div class="otp-input-group">
-              <input type="text" maxlength="1" class="otp-input" />
-              <input type="text" maxlength="1" class="otp-input" />
-              <input type="text" maxlength="1" class="otp-input" />
-              <input type="text" maxlength="1" class="otp-input" />
-            </div>
-            <div id="otpMessage"></div>
-          </div>
-
           <div class="button-group">
-            <button
-              type="button"
-              id="verifyButton"
-              class="submit-btn"
-              onclick="sendOTP()"
-            >
-              Verify Phone Number
-            </button>
-            <button type="submit" id="submitButton" class="submit-btn hidden">
-              Place Order
-            </button>
+            <button type="submit" class="submit-btn">Place Order</button>
           </div>
         </form>
       </section>
@@ -284,18 +244,7 @@
         sunflower: { mrp: 1190, offer: 1120 },
         groundnut: { mrp: 875, offer: 825 },
         coconut_small: { mrp: 95, offer: 90 },
-        almond: {
-          100: { mrp: 895, offer: 850 },
-          200: { mrp: 1790, offer: 1700 },
-          300: { mrp: 2685, offer: 2550 },
-          400: { mrp: 3580, offer: 3400 },
-          500: { mrp: 4475, offer: 4250 },
-          600: { mrp: 5370, offer: 5100 },
-          700: { mrp: 6265, offer: 5950 },
-          800: { mrp: 7160, offer: 6800 },
-          900: { mrp: 8055, offer: 7650 },
-          1000: { mrp: 8950, offer: 8500 },
-        },
+        almond: { mrp: 895, offer: 850 },
       };
 
       function handleProductChange() {
@@ -350,8 +299,8 @@
           quantity = "100 ml";
         } else if (product === "almond") {
           const ml = parseInt(quantitySelect.value);
-          mrp = prices.almond[ml].mrp;
-          offer = prices.almond[ml].offer;
+          mrp = (prices.almond.mrp * ml) / 100;
+          offer = (prices.almond.offer * ml) / 100;
           quantity = `${ml} ml`;
         } else {
           const liters = parseInt(quantitySelect.value);
@@ -372,58 +321,16 @@
         document.getElementById("summaryTotal").textContent = offer.toFixed(2);
       }
 
-      let phoneVerified = false;
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        handleProductChange();
+      });
 
-      function sendOTP() {
-        const phoneInput = document.querySelector('input[name="phone"]');
-        if (!phoneInput.value || !/^\d{10}$/.test(phoneInput.value)) {
-          alert("Please enter a valid 10-digit phone number");
-          return;
-        }
-
-        // Show verification section
-        document
-          .getElementById("verificationSection")
-          .classList.remove("hidden");
-        document.getElementById("verifyButton").classList.add("hidden");
-        setupOTPInputs();
-      }
-
-      function setupOTPInputs() {
-        const inputs = document.querySelectorAll(".otp-input");
-        inputs.forEach((input, index) => {
-          input.value = "";
-          input.addEventListener("keyup", (e) => {
-            if (e.key === "Backspace" && !input.value && index > 0) {
-              inputs[index - 1].focus();
-              return;
-            }
-            if (input.value && index < inputs.length - 1) {
-              inputs[index + 1].focus();
-            }
-            if (index === inputs.length - 1 && input.value) {
-              verifyOTP();
-            }
-          });
-        });
-        inputs[0].focus();
-      }
-
-      function verifyOTP() {
-        phoneVerified = true;
-        document.getElementById("submitButton").classList.remove("hidden");
-        document.getElementById("verificationSection").classList.add("hidden");
-      }
-
+      // Handle form submission
       document
         .getElementById("orderForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-          if (!phoneVerified) {
-            alert("Please verify your phone number first");
-            return;
-          }
-
           const formData = new FormData(this);
           const orderData = Object.fromEntries(formData.entries());
 
@@ -444,15 +351,7 @@
           alert(confirmMessage);
           this.reset();
           handleProductChange();
-          phoneVerified = false;
-          document.getElementById("submitButton").classList.add("hidden");
-          document.getElementById("verifyButton").classList.remove("hidden");
         });
-
-      // Initialize on page load
-      document.addEventListener("DOMContentLoaded", function () {
-        handleProductChange();
-      });
     </script>
   </body>
 </html>
