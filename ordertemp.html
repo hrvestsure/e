@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order Form with OTP Verification</title>
+    <title>Order Form</title>
     <style>
       body {
         margin: 0;
@@ -12,112 +12,116 @@
           -apple-system,
           sans-serif;
         background-color: rgb(243, 244, 246);
-        min-height: 100vh;
         padding: 1rem;
       }
-
       .container {
         max-width: 800px;
         margin: 0 auto;
       }
-
       .order-form-section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 4rem 2.5rem;
-        margin: 2rem auto;
-        text-align: left;
-        color: white;
-        border-radius: 1.5rem;
-        animation: fadeIn 1.5s ease-in-out;
         background: linear-gradient(
           to right,
           rgb(99, 102, 241),
           rgb(14, 165, 233)
         );
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 30px 0px;
+        padding: 2rem;
+        border-radius: 1rem;
+        color: white;
+        margin: 2rem auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       }
-
       .form-title {
-        margin-bottom: 2.5rem;
-        font-size: 2.25rem;
-        line-height: 3.75rem;
         text-align: center;
+        font-size: 2rem;
+        margin-bottom: 2rem;
       }
-
       .form-grid {
         display: grid;
-        gap: 2rem;
-        margin: 0 auto;
-        width: 100%;
         grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
       }
-
       .form-group {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
       }
-
       .form-label {
-        font-size: 1rem;
         font-weight: 500;
       }
-
       .form-input {
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
+        padding: 0.75rem;
         border-radius: 0.5rem;
-        background: rgba(255, 255, 255, 0.9);
         border: none;
-        color: rgb(39, 39, 42);
+        background: rgba(255, 255, 255, 0.9);
       }
-
       .address-group {
         grid-column: 1 / -1;
       }
-
       .address-input {
         min-height: 100px;
         resize: vertical;
       }
-
       .order-summary {
         grid-column: 1 / -1;
         background: rgba(0, 0, 0, 0.2);
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        margin-top: 1.5rem;
       }
-
+      .summary-header {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .summary-content {
+        padding: 1.5rem;
+      }
       .summary-row {
         display: flex;
         justify-content: space-between;
         padding: 0.75rem 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
-
       .summary-row:last-child {
         border-bottom: none;
       }
-
-      .summary-row.final-price {
+      .final-price {
         font-size: 1.25rem;
         font-weight: bold;
         margin-top: 0.5rem;
         padding-top: 1rem;
         border-top: 2px solid rgba(255, 255, 255, 0.2);
       }
-
+      .verification-section {
+        grid-column: 1 / -1;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        text-align: center;
+      }
+      .otp-input-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin: 1rem 0;
+      }
+      .otp-input {
+        width: 3rem;
+        height: 3rem;
+        text-align: center;
+        font-size: 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.9);
+      }
       .button-group {
         grid-column: 1 / -1;
         display: flex;
         justify-content: center;
         gap: 1rem;
+        margin-top: 1rem;
       }
-
       .submit-btn {
         padding: 1rem 2rem;
         font-size: 1.125rem;
@@ -125,110 +129,15 @@
         background: rgba(255, 255, 255, 0.9);
         color: rgb(37, 99, 235);
         border-radius: 0.5rem;
-        transition: all 0.3s ease;
+        border: none;
         cursor: pointer;
-        border: none;
-        margin-top: 1rem;
       }
-
-      .submit-btn:hover {
-        background: white;
-        transform: translateY(-2px);
-      }
-
-      .otp-section {
-        grid-column: 1 / -1;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 2rem;
-        border-radius: 0.5rem;
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .otp-title {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .otp-text {
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 1.5rem;
-      }
-
-      .otp-input-group {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-      }
-
-      .otp-input {
-        width: 3rem;
-        height: 3rem;
-        font-size: 1.5rem;
-        text-align: center;
-        border: none;
-        border-radius: 0.5rem;
-        background: rgba(255, 255, 255, 0.9);
-      }
-
-      .otp-message {
-        margin: 1rem 0;
-        min-height: 1.5rem;
-      }
-
-      .otp-message.error {
-        color: #ef4444;
-      }
-
-      .otp-message.success {
-        color: #22c55e;
-      }
-
-      .resend-container {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: center;
-        margin-top: 1rem;
-      }
-
-      .resend-btn {
-        background: none;
-        border: none;
-        color: rgba(255, 255, 255, 0.9);
-        cursor: pointer;
-        text-decoration: underline;
-        padding: 0;
-      }
-
-      .resend-btn:disabled {
-        color: rgba(255, 255, 255, 0.5);
-        cursor: not-allowed;
-        text-decoration: none;
-      }
-
-      .timer {
-        color: rgba(255, 255, 255, 0.7);
-      }
-
       .hidden {
         display: none;
       }
-
       @media (max-width: 640px) {
         .form-grid {
           grid-template-columns: 1fr;
-        }
-
-        .otp-input-group {
-          gap: 0.5rem;
-        }
-
-        .otp-input {
-          width: 2.5rem;
-          height: 2.5rem;
         }
       }
     </style>
@@ -242,6 +151,7 @@
             <label class="form-label">Name</label>
             <input class="form-input" name="name" required />
           </div>
+
           <div class="form-group">
             <label class="form-label">Phone</label>
             <input
@@ -253,11 +163,13 @@
               placeholder="Enter 10 digit number"
             />
           </div>
+
           <div class="form-group">
             <label class="form-label">Select Product</label>
             <select
               class="form-input"
-              name="oilType"
+              name="product"
+              id="productSelect"
               onchange="handleProductChange()"
             >
               <option value="mustard_brown">
@@ -267,7 +179,7 @@
                 Mustard Oil (Yellow) - ₹560/L
               </option>
               <option value="coconut">Coconut Oil - ₹550/L</option>
-              <option value="safflower">Safflower Oil (Kusum) - ₹640/L</option>
+              <option value="safflower">Safflower Oil - ₹640/L</option>
               <option value="sesame">Sesame Oil - ₹800/L</option>
               <option value="sunflower_black">
                 Sunflower Oil (Black) - ₹640/L
@@ -278,13 +190,13 @@
               <option value="coconut_small">Coconut Oil (100ml) - ₹90</option>
             </select>
           </div>
+
           <div class="form-group">
-            <label class="form-label">Select Quantity</label>
+            <label class="form-label" id="quantityLabel">Select Quantity</label>
             <select
               class="form-input"
-              name="quantity"
-              id="literQuantity"
-              onchange="calculateTotal()"
+              id="quantitySelect"
+              onchange="updatePrice()"
             >
               <option value="1">1 Liter</option>
               <option value="2">2 Liters</option>
@@ -292,27 +204,9 @@
               <option value="4">4 Liters</option>
               <option value="5">5 Liters</option>
               <option value="10">10 Liters</option>
-              <option value="15">15 Liters</option>
-              <option value="20">20 Liters</option>
-            </select>
-            <select
-              class="form-input hidden"
-              name="mlQuantity"
-              id="mlQuantity"
-              onchange="calculateTotal()"
-            >
-              <option value="100">100 ml</option>
-              <option value="200">200 ml</option>
-              <option value="300">300 ml</option>
-              <option value="400">400 ml</option>
-              <option value="500">500 ml</option>
-              <option value="600">600 ml</option>
-              <option value="700">700 ml</option>
-              <option value="800">800 ml</option>
-              <option value="900">900 ml</option>
-              <option value="1000">1000 ml (1 Liter)</option>
             </select>
           </div>
+
           <div class="form-group address-group">
             <label class="form-label">Delivery Address</label>
             <textarea
@@ -321,76 +215,59 @@
               required
             ></textarea>
           </div>
+
           <div class="order-summary">
-            <div class="summary-row">
-              <span>MRP:</span>
-              <span>₹<span id="originalPrice">0.00</span></span>
+            <div class="summary-header">
+              <h3 style="margin: 0">Order Summary</h3>
             </div>
-            <div class="summary-row">
-              <span>Discount:</span>
-              <span>₹<span id="discountAmount">0.00</span></span>
-            </div>
-            <div class="summary-row final-price">
-              <span>Final Amount:</span>
-              <span>₹<span id="totalPrice">0.00</span></span>
+            <div class="summary-content">
+              <div class="summary-row">
+                <span>Product:</span>
+                <span id="summaryProduct">-</span>
+              </div>
+              <div class="summary-row">
+                <span>Quantity:</span>
+                <span id="summaryQuantity">-</span>
+              </div>
+              <div class="summary-row">
+                <span>MRP:</span>
+                <span>₹<span id="summaryMRP">0.00</span></span>
+              </div>
+              <div class="summary-row">
+                <span>You Save:</span>
+                <span>₹<span id="summaryDiscount">0.00</span></span>
+              </div>
+              <div class="summary-row final-price">
+                <span>Final Price:</span>
+                <span>₹<span id="summaryTotal">0.00</span></span>
+              </div>
             </div>
           </div>
 
-          <!-- Initial Order Button -->
-          <div id="orderButtons" class="button-group">
-            <button type="button" class="submit-btn" onclick="sendOTP()">
-              Continue to Verify
-            </button>
-          </div>
-
-          <!-- OTP Section -->
-          <div id="otpSection" class="otp-section hidden">
-            <h3 class="otp-title">Phone Verification</h3>
-            <p class="otp-text">Enter the 4-digit code sent to your phone</p>
+          <div id="verificationSection" class="verification-section hidden">
+            <h3>Phone Verification</h3>
+            <p>Enter the 4-digit code sent to your phone</p>
             <div class="otp-input-group">
-              <input
-                type="text"
-                maxlength="1"
-                class="otp-input"
-                data-index="1"
-              />
-              <input
-                type="text"
-                maxlength="1"
-                class="otp-input"
-                data-index="2"
-              />
-              <input
-                type="text"
-                maxlength="1"
-                class="otp-input"
-                data-index="3"
-              />
-              <input
-                type="text"
-                maxlength="1"
-                class="otp-input"
-                data-index="4"
-              />
+              <input type="text" maxlength="1" class="otp-input" />
+              <input type="text" maxlength="1" class="otp-input" />
+              <input type="text" maxlength="1" class="otp-input" />
+              <input type="text" maxlength="1" class="otp-input" />
             </div>
-            <div class="otp-message" id="otpMessage"></div>
-            <div class="button-group">
-              <button type="button" class="submit-btn" onclick="verifyOTP()">
-                Verify OTP
-              </button>
-            </div>
-            <div class="resend-container">
-              <button
-                type="button"
-                id="resendButton"
-                class="resend-btn"
-                onclick="resendOTP()"
-                disabled
-              >
-                Resend OTP
-              </button>
-              <span id="timer" class="timer"></span>
-            </div>
+            <div id="otpMessage"></div>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              id="verifyButton"
+              class="submit-btn"
+              onclick="sendOTP()"
+            >
+              Verify Phone Number
+            </button>
+            <button type="submit" id="submitButton" class="submit-btn hidden">
+              Place Order
+            </button>
           </div>
         </form>
       </section>
@@ -406,6 +283,7 @@
         sunflower_black: { mrp: 695, offer: 640 },
         sunflower: { mrp: 1190, offer: 1120 },
         groundnut: { mrp: 875, offer: 825 },
+        coconut_small: { mrp: 95, offer: 90 },
         almond: {
           100: { mrp: 895, offer: 850 },
           200: { mrp: 1790, offer: 1700 },
@@ -418,281 +296,163 @@
           900: { mrp: 8055, offer: 7650 },
           1000: { mrp: 8950, offer: 8500 },
         },
-        coconut_small: { mrp: 95, offer: 90 },
       };
 
-      let otpValue = "";
-      let resendTimer;
-
       function handleProductChange() {
-        const selectedProduct = document.querySelector(
-          'select[name="oilType"]',
-        ).value;
-        const literQuantity = document.querySelector("#literQuantity");
-        const mlQuantity = document.querySelector("#mlQuantity");
+        const product = document.getElementById("productSelect").value;
+        const quantitySelect = document.getElementById("quantitySelect");
+        const quantityLabel = document.getElementById("quantityLabel");
 
-        if (selectedProduct === "almond") {
-          literQuantity.classList.add("hidden");
-          mlQuantity.classList.remove("hidden");
-          mlQuantity.value = "100";
-        } else if (selectedProduct === "coconut_small") {
-          literQuantity.classList.add("hidden");
-          mlQuantity.classList.add("hidden");
+        if (product === "coconut_small") {
+          quantitySelect.style.display = "none";
+          quantityLabel.textContent = "Fixed Quantity (100ml)";
+        } else if (product === "almond") {
+          quantitySelect.style.display = "block";
+          quantityLabel.textContent = "Select Quantity";
+          quantitySelect.innerHTML = `
+                    <option value="100">100 ml</option>
+                    <option value="200">200 ml</option>
+                    <option value="300">300 ml</option>
+                    <option value="400">400 ml</option>
+                    <option value="500">500 ml</option>
+                    <option value="600">600 ml</option>
+                    <option value="700">700 ml</option>
+                    <option value="800">800 ml</option>
+                    <option value="900">900 ml</option>
+                    <option value="1000">1000 ml (1 Liter)</option>
+                `;
         } else {
-          literQuantity.classList.remove("hidden");
-          mlQuantity.classList.add("hidden");
-          literQuantity.value = "1";
+          quantitySelect.style.display = "block";
+          quantityLabel.textContent = "Select Quantity";
+          quantitySelect.innerHTML = `
+                    <option value="1">1 Liter</option>
+                    <option value="2">2 Liters</option>
+                    <option value="3">3 Liters</option>
+                    <option value="4">4 Liters</option>
+                    <option value="5">5 Liters</option>
+                    <option value="10">10 Liters</option>
+                `;
         }
 
-        calculateTotal();
+        updatePrice();
       }
 
-      function calculateTotal() {
-        const selectedProduct = document.querySelector(
-          'select[name="oilType"]',
-        ).value;
-        let mrpTotal, offerTotal;
+      function updatePrice() {
+        const product = document.getElementById("productSelect").value;
+        const productSelect = document.getElementById("productSelect");
+        const quantitySelect = document.getElementById("quantitySelect");
 
-        if (selectedProduct === "almond") {
-          const mlQuantity = document.querySelector("#mlQuantity").value;
-          mrpTotal = prices.almond[mlQuantity].mrp;
-          offerTotal = prices.almond[mlQuantity].offer;
-        } else if (selectedProduct === "coconut_small") {
-          mrpTotal = prices.coconut_small.mrp;
-          offerTotal = prices.coconut_small.offer;
+        let mrp, offer, quantity;
+
+        if (product === "coconut_small") {
+          mrp = prices.coconut_small.mrp;
+          offer = prices.coconut_small.offer;
+          quantity = "100 ml";
+        } else if (product === "almond") {
+          const ml = parseInt(quantitySelect.value);
+          mrp = prices.almond[ml].mrp;
+          offer = prices.almond[ml].offer;
+          quantity = `${ml} ml`;
         } else {
-          const literQuantity = parseInt(
-            document.querySelector("#literQuantity").value,
-          );
-          mrpTotal = prices[selectedProduct].mrp * literQuantity;
-          offerTotal = prices[selectedProduct].offer * literQuantity;
+          const liters = parseInt(quantitySelect.value);
+          mrp = prices[product].mrp * liters;
+          offer = prices[product].offer * liters;
+          quantity = `${liters} ${liters === 1 ? "Liter" : "Liters"}`;
         }
 
-        const discount = mrpTotal - offerTotal;
-
-        document.getElementById("originalPrice").textContent =
-          mrpTotal.toFixed(2);
-        document.getElementById("discountAmount").textContent =
-          discount.toFixed(2);
-        document.getElementById("totalPrice").textContent =
-          offerTotal.toFixed(2);
+        document.getElementById("summaryProduct").textContent =
+          productSelect.options[productSelect.selectedIndex].text.split(
+            " - ",
+          )[0];
+        document.getElementById("summaryQuantity").textContent = quantity;
+        document.getElementById("summaryMRP").textContent = mrp.toFixed(2);
+        document.getElementById("summaryDiscount").textContent = (
+          mrp - offer
+        ).toFixed(2);
+        document.getElementById("summaryTotal").textContent = offer.toFixed(2);
       }
 
-        async function sendOTP() {
-            const phoneInput = document.querySelector('input[name="phone"]');
-            const nameInput = document.querySelector('input[name="name"]');
-            const addressInput = document.querySelector('textarea[name="address"]');
+      let phoneVerified = false;
 
-            if (!phoneInput.value || !nameInput.value || !addressInput.value) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
-            if (!phoneInput.value.match(/^[0-9]{10}$/)) {
-                alert('Please enter a valid 10-digit phone number');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/send-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ phone: phoneInput.value })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Show OTP section
-                    document.getElementById('otpSection').classList.remove('hidden');
-                    document.getElementById('orderButtons').classList.add('hidden');
-
-                    // Start timer for resend button
-                    startResendTimer();
-
-                    // Setup OTP input handling
-                    setupOTPInputs();
-
-                    // Show message
-                    showOTPMessage('OTP sent successfully!', 'success');
-                } else {
-                    showOTPMessage(data.message, 'error');
-                }
-            } catch (error) {
-                console.error('Error sending OTP:', error);
-                showOTPMessage('Failed to send OTP. Please try again.', 'error');
-            }
-        }
-          return;
-        }
-
-        if (!phoneInput.value.match(/^[0-9]{10}$/)) {
+      function sendOTP() {
+        const phoneInput = document.querySelector('input[name="phone"]');
+        if (!phoneInput.value || !/^\d{10}$/.test(phoneInput.value)) {
           alert("Please enter a valid 10-digit phone number");
           return;
         }
 
-        // Generate a random 4-digit OTP
-        otpValue = Math.floor(1000 + Math.random() * 9000).toString();
-        console.log("OTP generated:", otpValue); // In production, this would be sent to the server
-
-        // Show OTP section
-        document.getElementById("otpSection").classList.remove("hidden");
-        document.getElementById("orderButtons").classList.add("hidden");
-
-        // Start timer for resend button
-        startResendTimer();
-
-        // Setup OTP input handling
+        // Show verification section
+        document
+          .getElementById("verificationSection")
+          .classList.remove("hidden");
+        document.getElementById("verifyButton").classList.add("hidden");
         setupOTPInputs();
-
-        // Show message
-        showOTPMessage("OTP sent successfully!", "success");
       }
 
       function setupOTPInputs() {
         const inputs = document.querySelectorAll(".otp-input");
-
         inputs.forEach((input, index) => {
           input.value = "";
-
           input.addEventListener("keyup", (e) => {
             if (e.key === "Backspace" && !input.value && index > 0) {
               inputs[index - 1].focus();
               return;
             }
-
             if (input.value && index < inputs.length - 1) {
               inputs[index + 1].focus();
             }
-          });
-
-          input.addEventListener("keypress", (e) => {
-            if (!/^\d$/.test(e.key)) {
-              e.preventDefault();
+            if (index === inputs.length - 1 && input.value) {
+              verifyOTP();
             }
           });
         });
-
-        // Focus first input
         inputs[0].focus();
       }
 
-        async function verifyOTP() {
-            const inputs = document.querySelectorAll('.otp-input');
-            const enteredOTP = Array.from(inputs).map(input => input.value).join('');
-            const phone = document.querySelector('input[name="phone"]').value;
-
-            try {
-                const response = await fetch('/api/verify-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        phone,
-                        otp: enteredOTP
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    showOTPMessage('OTP verified successfully!', 'success');
-                    setTimeout(() => {
-                        submitOrder();
-                    }, 1000);
-                } else {
-                    showOTPMessage(data.message, 'error');
-                }
-            } catch (error) {
-                console.error('Error verifying OTP:', error);
-                showOTPMessage('Failed to verify OTP. Please try again.', 'error');
-            }
-        }
-          .map((input) => input.value)
-          .join("");
-
-        if (enteredOTP === otpValue) {
-          showOTPMessage("OTP verified successfully!", "success");
-          setTimeout(() => {
-            submitOrder();
-          }, 1000);
-        } else {
-          showOTPMessage("Invalid OTP. Please try again.", "error");
-        }
+      function verifyOTP() {
+        phoneVerified = true;
+        document.getElementById("submitButton").classList.remove("hidden");
+        document.getElementById("verificationSection").classList.add("hidden");
       }
 
-      function submitOrder() {
-        const formData = new FormData(document.getElementById("orderForm"));
-        const orderData = Object.fromEntries(formData.entries());
-        console.log("Order submitted:", orderData);
-
-        // Reset form and state
-        document.getElementById("orderForm").reset();
-        document.getElementById("otpSection").classList.add("hidden");
-        document.getElementById("orderButtons").classList.remove("hidden");
-        calculateTotal();
-
-        alert("Order submitted successfully!");
-      }
-
-        async function resendOTP() {
-            const phone = document.querySelector('input[name="phone"]').value;
-
-            try {
-                const response = await fetch('/api/send-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ phone })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    showOTPMessage('OTP resent successfully!', 'success');
-                    startResendTimer();
-                } else {
-                    showOTPMessage(data.message, 'error');
-                }
-            } catch (error) {
-                console.error('Error resending OTP:', error);
-                showOTPMessage('Failed to resend OTP. Please try again.', 'error');
-            }
-        }
-      }
-
-      function startResendTimer() {
-        let timeLeft = 30;
-        const resendButton = document.getElementById("resendButton");
-        const timerDisplay = document.getElementById("timer");
-
-        resendButton.disabled = true;
-
-        clearInterval(resendTimer);
-        resendTimer = setInterval(() => {
-          timerDisplay.textContent = `(${timeLeft}s)`;
-          timeLeft--;
-
-          if (timeLeft < 0) {
-            clearInterval(resendTimer);
-            resendButton.disabled = false;
-            timerDisplay.textContent = "";
+      document
+        .getElementById("orderForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (!phoneVerified) {
+            alert("Please verify your phone number first");
+            return;
           }
-        }, 1000);
-      }
 
-      function showOTPMessage(message, type) {
-        const messageElement = document.getElementById("otpMessage");
-        messageElement.textContent = message;
-        messageElement.className = `otp-message ${type}`;
-      }
+          const formData = new FormData(this);
+          const orderData = Object.fromEntries(formData.entries());
 
-      // Initialize calculations
-      document.addEventListener("DOMContentLoaded", calculateTotal);
+          const confirmMessage = `
+                Order Confirmed!
+
+                Details:
+                - Name: ${orderData.name}
+                - Phone: ${orderData.phone}
+                - Product: ${document.getElementById("summaryProduct").textContent}
+                - Quantity: ${document.getElementById("summaryQuantity").textContent}
+                - Amount: ₹${document.getElementById("summaryTotal").textContent}
+                - Payment: Cash on Delivery
+
+                Our team will contact you shortly to confirm the delivery.
+            `;
+
+          alert(confirmMessage);
+          this.reset();
+          handleProductChange();
+          phoneVerified = false;
+          document.getElementById("submitButton").classList.add("hidden");
+          document.getElementById("verifyButton").classList.remove("hidden");
+        });
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        handleProductChange();
+      });
     </script>
   </body>
 </html>
