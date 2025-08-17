@@ -1,122 +1,49 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const twilio = require("twilio");
-const path = require("path");
+import express from "express";
+import bodyParser from "body-parser";
+import twilio from "twilio";
+import cors from "cors";
 
 const app = express();
-
-// Middleware
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
-app.use(express.static("public"));
 
-// Twilio client
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN,
-);
+const accountSid = "YOUR_TWILIO_SID";
+const authToken = "YOUR_TWILIO_AUTH";
+const verifySid = "YOUR_TWILIO_VERIFY_SID";
+const companyNumber = "COMPANY_PHONE_NUMBER"; 
+const twilioNumber = "YOUR_TWILIO_NUMBER";
 
-// Store OTPs temporarily (use a proper database in production)
-const otpStore = new Map();
+const client = twilio(accountSid, authToken);
 
-// Serve the HTML file
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "ordertemp.html"));
+app.post("/send-otp", async (req,res)=>{
+  const {phone}=req.body;
+  try{
+    await client.verify.v2.services(verifySid).verifications.create({to:phone,channel:"sms"});
+    res.json({message:`📩 OTP sent to ${phone}`});
+  }catch(e){res.status(500).json({message:"❌ Failed to send OTP"});}
 });
 
-// Generate and send OTP
-app.post("/api/send-otp", async (req, res) => {
-  try {
-    const { phone } = req.body;
+app.post("/verify-otp", async (req,res)=>{
+  const {phone,otp}=req.body;
+  try{
+    const check = await client.verify.v2.services(verifySid).verificationChecks.create({to:phone,code:otp});
+    if(check.status==="approved") res.json({success:true,message:"✅ OTP Verified"});
+    else res.json({success:false,message:"❌ Invalid OTP"});
+  }catch(e){res.status(500).json({success:false,message:"❌ OTP verification error"});}
+});
 
-    // Validate phone number
-    if (!phone || !/^\d{10}$/.test(phone)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid phone number",
-      });
-    }
-
-    // Generate OTP
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-
-    // Store OTP with expiration
-    otpStore.set(phone, {
-      otp,
-      timestamp: Date.now(),
-      attempts: 0,
-    });
-
-    // Send SMS using Twilio
+app.post("/submit-order", async (req,res)=>{
+  const {name,phone,flat,addr,cart}=req.body;
+  if(!cart||!cart.length) return res.status(400).json({success:false,message:"❌ Empty cart"});
+  let summary = cart.map(i=>`${i.qty}×${i.name}`).join(", ");
+  try{
     await client.messages.create({
-      body: `Your OTP for order verification is: ${otp}. Valid for 5 minutes.`,
-      to: `+91${phone}`, // Assuming Indian numbers
-      from: process.env.TWILIO_PHONE_NUMBER,
+      body:`New order from ${name}, Phone: ${phone}, ${flat}, ${addr}. Items: ${summary}`,
+      from:twilioNumber,
+      to:companyNumber
     });
-
-    res.json({
-      success: true,
-      message: "OTP sent successfully",
-    });
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to send OTP",
-    });
-  }
+    res.json({success:true,message:"✅ Order submitted successfully"});
+  }catch(e){res.status(500).json({success:false,message:"❌ Failed to send order to company"});}
 });
 
-// Verify OTP
-app.post("/api/verify-otp", (req, res) => {
-  const { phone, otp } = req.body;
-
-  const storedData = otpStore.get(phone);
-
-  if (!storedData) {
-    return res.json({
-      success: false,
-      message: "OTP expired or not found",
-    });
-  }
-
-  // Check expiration (5 minutes)
-  if (Date.now() - storedData.timestamp > 5 * 60 * 1000) {
-    otpStore.delete(phone);
-    return res.json({
-      success: false,
-      message: "OTP expired",
-    });
-  }
-
-  // Check attempts
-  if (storedData.attempts >= 3) {
-    otpStore.delete(phone);
-    return res.json({
-      success: false,
-      message: "Too many attempts. Please request new OTP",
-    });
-  }
-
-  // Verify OTP
-  if (storedData.otp === otp) {
-    otpStore.delete(phone);
-    return res.json({
-      success: true,
-      message: "OTP verified successfully",
-    });
-  } else {
-    storedData.attempts += 1;
-    return res.json({
-      success: false,
-      message: "Invalid OTP",
-    });
-  }
-});
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(3000,()=>console.log("Server running on port 3000"));
