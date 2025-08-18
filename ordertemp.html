@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Harvest Sure - Order Form</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #2563eb;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: all 0.3s ease-in-out;
-      z-index: 9999;
-      font-weight: 500;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-    .toast.error { background: #dc2626; }
-    .toast.success { background: #16a34a; }
-  </style>
+<meta charset="UTF-8">
+<title>Harvest Sure - Order Form</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Toast styles */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease-in-out;
+  z-index: 9999;
+  font-weight: 500;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: #16a34a; }
+.toast.error { background: #dc2626; }
+.toast.info { background: #2563eb; }
+</style>
 </head>
 <body class="bg-gradient-to-r from-indigo-100 to-blue-100 min-h-screen flex items-center justify-center p-2">
 
@@ -101,7 +103,12 @@ const toast=document.getElementById("toast");
 const summaryDiv=document.getElementById("summary");
 let cart=[], selectQty=1, otpVerified=false, otpTimerInterval=0;
 
-function showToast(msg,type="info"){toast.innerText=msg; toast.className=`toast show ${type}`; setTimeout(()=>toast.classList.remove("show"),2500);}
+function showToast(msg,type="info"){
+  toast.innerText=msg;
+  toast.className=`toast show ${type}`;
+  setTimeout(()=>toast.classList.remove("show"),2500);
+}
+
 function changeSelectQty(d){selectQty=Math.max(1,selectQty+d); document.getElementById("selectQty").innerText=selectQty;}
 
 function addProduct(){
@@ -142,12 +149,13 @@ function updateSummary(){
     </div>`;
 }
 
-// OTP functions
+// OTP
 function sendOtp(){
   const phone=document.getElementById("custPhone").value.trim();
   if(!phone) return showToast("❌ Enter phone number!","error");
   fetch("/send-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone})})
-    .then(r=>r.json()).then(d=>{showToast(d.message,"success"); startOtpTimer();}).catch(e=>showToast("❌ Error sending OTP","error"));
+  .then(r=>r.json()).then(d=>{showToast(d.message,"success"); startOtpTimer();})
+  .catch(()=>showToast("❌ Error sending OTP","error"));
 }
 
 function startOtpTimer(){
@@ -165,7 +173,7 @@ function verifyOtp(){
   if(!otp) return showToast("❌ Enter OTP","error");
   fetch("/verify-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone,otp})})
     .then(r=>r.json()).then(d=>{showToast(d.message,d.success?"success":"error"); if(d.success) otpVerified=true;})
-    .catch(e=>showToast("❌ OTP verify error","error"));
+    .catch(()=>showToast("❌ OTP verify error","error"));
 }
 
 function submitOrder(){
@@ -179,7 +187,7 @@ function submitOrder(){
 
   fetch("/submit-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,flat,addr,cart})})
     .then(r=>r.json()).then(d=>showToast(d.message,d.success?"success":"error"))
-    .catch(e=>showToast("❌ Order submission failed","error"));
+    .catch(()=>showToast("❌ Order submission failed","error"));
 }
 </script>
 </body>
