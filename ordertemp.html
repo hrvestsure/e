@@ -6,62 +6,24 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 /* Toast styles */
-.toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #2563eb;
-  color: white;
-  padding: 14px 22px;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  opacity: 0;
-  transform: translateY(-30px) scale(0.9);
-  transition: all 0.4s cubic-bezier(.25,.8,.25,1);
-  z-index: 9999;
-  font-weight: 600;
-}
+.toast { position: fixed; top: 20px; right: 20px; background: #2563eb; color: white; padding: 14px 22px; border-radius: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-30px) scale(0.9); transition: all 0.4s cubic-bezier(.25,.8,.25,1); z-index: 9999; font-weight: 600; }
 .toast.show { opacity: 1; transform: translateY(0) scale(1); }
 .toast.success { background: #16a34a; }
 .toast.error { background: #dc2626; }
 .toast.info { background: #2563eb; }
-
 /* Button hover animation */
-button {
-  transition: all 0.2s ease-in-out;
-}
-button:hover {
-  transform: scale(1.05);
-}
-
+button { transition: all 0.2s ease-in-out; }
+button:hover { transform: scale(1.05); }
 /* Input focus */
-input, select, textarea {
-  transition: all 0.3s ease-in-out;
-}
-input:focus, select:focus, textarea:focus {
-  transform: scale(1.02);
-}
-
+input, select, textarea { transition: all 0.3s ease-in-out; }
+input:focus, select:focus, textarea:focus { transform: scale(1.02); }
 /* Card animation */
-.card {
-  transition: all 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-}
-
+.card { transition: all 0.3s ease; }
+.card:hover { transform: translateY(-5px); }
 /* Summary item animation */
-.summary-item {
-  transition: all 0.3s ease-in-out;
-}
-.summary-item-added {
-  animation: pop 0.3s forwards;
-}
-@keyframes pop {
-  0% { transform: scale(0.9); opacity: 0; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
+.summary-item { transition: all 0.3s ease-in-out; }
+.summary-item-added { animation: pop 0.3s forwards; }
+@keyframes pop { 0% { transform: scale(0.9); opacity: 0; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 </style>
 </head>
 <body class="bg-gradient-to-r from-indigo-100 to-blue-100 min-h-screen flex items-center justify-center p-4">
@@ -74,7 +36,7 @@ input:focus, select:focus, textarea:focus {
   <div class="card bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 shadow-lg space-y-3">
     <h2 class="text-lg font-semibold text-gray-700">📝 Customer Information</h2>
     <input id="custName" type="text" placeholder="Full Name" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
-    <input id="custPhone" type="tel" placeholder="Phone Number" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
+    <input id="custPhone" type="tel" placeholder="Phone Number" maxlength="10" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
     <input id="custFlat" type="text" placeholder="Flat / House / Apartment No." class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
     <textarea id="custAddress" placeholder="Full Address" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400"></textarea>
   </div>
@@ -120,7 +82,7 @@ input:focus, select:focus, textarea:focus {
   <div class="card bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 shadow-lg space-y-3">
     <h2 class="text-lg font-semibold text-gray-700">📲 OTP Verification</h2>
     <div class="flex flex-col sm:flex-row gap-2">
-      <button id="sendOtpBtn" onclick="sendOtp()"class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-full shadow-md transition transform hover:scale-105">Send OTP</button>
+      <button id="sendOtpBtn" onclick="sendOtp()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-full shadow-md transition transform hover:scale-105">Send OTP</button>
       <span id="otpTimer" class="self-center text-gray-600 font-medium"></span>
     </div>
     <div class="flex gap-2 mt-2">
@@ -135,53 +97,45 @@ input:focus, select:focus, textarea:focus {
 <div id="toast" class="toast"></div>
 
 <script>
-const toast=document.getElementById("toast");
-const summaryDiv=document.getElementById("summary");
-let cart=[], selectQty=1, otpVerified=false, otpTimerInterval=0;
+const toast = document.getElementById("toast");
+const summaryDiv = document.getElementById("summary");
+let cart = [], selectQty = 1, otpVerified = false, otpTimerInterval = 0;
+let currentOtp = null;
 
+// Toast
 function showToast(msg,type="info"){
-  toast.innerText=msg;
-  toast.className=`toast show ${type}`;
+  toast.innerText = msg;
+  toast.className = `toast show ${type}`;
   setTimeout(()=>toast.classList.remove("show"),2500);
 }
 
+// Quantity
 function changeSelectQty(d){
-  selectQty=Math.max(1,selectQty+d);
-  document.getElementById("selectQty").innerText=selectQty;
+  selectQty = Math.max(1, selectQty + d);
+  document.getElementById("selectQty").innerText = selectQty;
 }
 
+// Add product
 function addProduct(){
-  const select=document.getElementById("productSelect");
+  const select = document.getElementById("productSelect");
   if(!select.value) return showToast("❌ Please select a product!","error");
-
-  const price=parseInt(select.value), size=select.selectedOptions[0].dataset.size, name=select.selectedOptions[0].innerText;
-  const existing=cart.find(i=>i.name===name);
-  if(existing) existing.qty+=selectQty; else cart.push({name,qty:selectQty,price,size});
-
+  const price = parseInt(select.value), size = select.selectedOptions[0].dataset.size, name = select.selectedOptions[0].innerText;
+  const existing = cart.find(i => i.name===name);
+  if(existing) existing.qty += selectQty; else cart.push({name,qty:selectQty,price,size});
   showToast(`✅ Added ${selectQty} × ${name}`,"success");
-  updateSummary(true); // true = animation
-
-  selectQty=1;
-  document.getElementById("selectQty").innerText=1;
-  select.selectedIndex=0;
+  updateSummary(true);
+  selectQty = 1;
+  document.getElementById("selectQty").innerText = 1;
+  select.selectedIndex = 0;
 }
 
-function changeQty(i,d){
-  cart[i].qty+=d;
-  if(cart[i].qty<=0) cart.splice(i,1);
-  updateSummary();
-}
-function removeItem(i){
-  cart.splice(i,1);
-  updateSummary();
-}
-
+// Update summary
 function updateSummary(animated=false){
   if(!cart.length){summaryDiv.innerHTML="No items yet."; return;}
   let subtotal=0, litres=0;
-  let list=cart.map((item,i)=>{
-    subtotal+=item.qty*item.price;
-    litres+=(item.size==="100ml")? item.qty*0.1:item.qty;
+  let list = cart.map((item,i)=>{
+    subtotal += item.qty*item.price;
+    litres += (item.size==="100ml")? item.qty*0.1:item.qty;
     return `<li class="flex items-center justify-between mb-3 bg-white p-2 rounded shadow-sm summary-item ${animated?"summary-item-added":""}">
       <span class="flex-1 text-sm">${item.name}</span>
       <div class="flex items-center gap-2">
@@ -190,11 +144,11 @@ function updateSummary(animated=false){
       <button onclick="changeQty(${i},1)" class="w-7 h-7 flex items-center justify-center rounded-full bg-green-500 text-white">+</button>
       <span class="ml-3 font-medium">₹${item.qty*item.price}</span>
       <button onclick="removeItem(${i})" class="text-red-500 ml-2 hover:text-red-700">❌</button>
-      </div></li>`}).join("");
-
-  let delivery=(subtotal<2500)? Math.ceil(litres)*75:0;
-  let packaging=Math.ceil(litres)*10, service=Math.ceil(litres)*5, total=subtotal+delivery+packaging+service;
-  summaryDiv.innerHTML=`<ul>${list}</ul>
+      </div></li>`;
+  }).join("");
+  let delivery = (subtotal<2500)? Math.ceil(litres)*75:0;
+  let packaging = Math.ceil(litres)*10, service = Math.ceil(litres)*5, total = subtotal+delivery+packaging+service;
+  summaryDiv.innerHTML = `<ul>${list}</ul>
     <div class="mt-2 text-sm">
       <p>Subtotal: ₹${subtotal}</p>
       <p>Delivery: ₹${delivery} ${delivery===0?"(Free over ₹2500)":""}</p>
@@ -204,13 +158,18 @@ function updateSummary(animated=false){
     </div>`;
 }
 
-// OTP functions
+// Change / remove qty
+function changeQty(i,d){ cart[i].qty+=d; if(cart[i].qty<=0) cart.splice(i,1); updateSummary(); }
+function removeItem(i){ cart.splice(i,1); updateSummary(); }
+
+// OTP
 function sendOtp(){
-  const phone=document.getElementById("custPhone").value.trim();
-  if(!phone) return showToast("❌ Enter phone number!","error");
-  fetch("/send-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone})})
-  .then(r=>r.json()).then(d=>{showToast(d.message,d.success?"success":"error"); startOtpTimer();})
-  .catch(()=>showToast("❌ Error sending OTP","error"));
+  const phone = document.getElementById("custPhone").value.trim();
+  if(!phone.match(/^\d{10}$/)) return showToast("❌ Enter valid 10-digit phone number","error");
+  currentOtp = Math.floor(100000 + Math.random()*900000); // 6-digit random
+  fetch("http://localhost:3000/send-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone,otp:currentOtp})})
+    .then(r=>r.json()).then(d=>{ showToast(d.message,d.success?"success":"error"); startOtpTimer(); })
+    .catch(()=>showToast("❌ Error sending OTP","error"));
 }
 
 function startOtpTimer(){
@@ -226,14 +185,13 @@ function startOtpTimer(){
 }
 
 function verifyOtp(){
-  const phone=document.getElementById("custPhone").value.trim();
-  const otp=document.getElementById("otpInput").value.trim();
-  if(!otp) return showToast("❌ Enter OTP","error");
-  fetch("/verify-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone,otp})})
-    .then(r=>r.json()).then(d=>{showToast(d.message,d.success?"success":"error"); if(d.success) otpVerified=true;})
-    .catch(()=>showToast("❌ OTP verify error","error"));
+  const inputOtp = document.getElementById("otpInput").value.trim();
+  if(!inputOtp) return showToast("❌ Enter OTP","error");
+  if(parseInt(inputOtp) === currentOtp){ otpVerified=true; showToast("✅ OTP verified","success"); }
+  else showToast("❌ Incorrect OTP","error");
 }
 
+// Submit order
 function submitOrder(){
   const name=document.getElementById("custName").value.trim();
   const phone=document.getElementById("custPhone").value.trim();
@@ -243,7 +201,7 @@ function submitOrder(){
   if(!cart.length) return showToast("❌ Add products to cart","error");
   if(!otpVerified) return showToast("❌ Verify OTP first","error");
 
-  fetch("/submit-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,flat,addr,cart})})
+  fetch("http://localhost:3000/submit-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,flat,addr,cart})})
     .then(r=>r.json()).then(d=>showToast(d.message,d.success?"success":"error"))
     .catch(()=>showToast("❌ Order submission failed","error"));
 }
