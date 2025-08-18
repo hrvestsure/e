@@ -1,49 +1,48 @@
-import express from "express";
-import bodyParser from "body-parser";
-import twilio from "twilio";
-import cors from "cors";
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const twilio = require("twilio");
+const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const accountSid = "YOUR_TWILIO_SID";
-const authToken = "YOUR_TWILIO_AUTH";
-const verifySid = "YOUR_TWILIO_VERIFY_SID";
-const companyNumber = "COMPANY_PHONE_NUMBER"; 
-const twilioNumber = "YOUR_TWILIO_NUMBER";
+const port = 3000;
 
+// Twilio credentials
+const accountSid = "YOUR_TWILIO_ACCOUNT_SID";
+const authToken = "YOUR_TWILIO_AUTH_TOKEN";
+const twilioPhone = "+1234567890";      // Your Twilio number
+const companyPhone = "+919876543210";   // Company phone
 const client = twilio(accountSid, authToken);
 
-app.post("/send-otp", async (req,res)=>{
-  const {phone}=req.body;
-  try{
-    await client.verify.v2.services(verifySid).verifications.create({to:phone,channel:"sms"});
-    res.json({message:`📩 OTP sent to ${phone}`});
-  }catch(e){res.status(500).json({message:"❌ Failed to send OTP"});}
+// Send OTP
+app.post("/send-otp", (req,res)=>{
+  const {phone, otp} = req.body;
+  client.messages.create({
+    body:`Your OTP is ${otp}`,
+    from:twilioPhone,
+    to:`+91${phone}`
+  })
+  .then(()=>res.json({success:true,message:"OTP sent"}))
+  .catch(err=>res.status(500).json({success:false,message:err.message}));
 });
 
-app.post("/verify-otp", async (req,res)=>{
-  const {phone,otp}=req.body;
-  try{
-    const check = await client.verify.v2.services(verifySid).verificationChecks.create({to:phone,code:otp});
-    if(check.status==="approved") res.json({success:true,message:"✅ OTP Verified"});
-    else res.json({success:false,message:"❌ Invalid OTP"});
-  }catch(e){res.status(500).json({success:false,message:"❌ OTP verification error"});}
+// Submit order
+app.post("/submit-order", (req,res)=>{
+  const {name,phone,flat,addr,cart} = req.body;
+  const orderMsg = `New Order Received:
+Name: ${name}
+Phone: ${phone}
+Address: ${flat}, ${addr}
+Items:
+${cart.map(i=>`${i.qty} × ${i.name}`).join("\n")}`;
+  client.messages.create({
+    body: orderMsg,
+    from: twilioPhone,
+    to: companyPhone
+  })
+  .then(()=>res.json({success:true,message:"Order submitted and company notified!"}))
+  .catch(err=>res.status(500).json({success:false,message:err.message}));
 });
 
-app.post("/submit-order", async (req,res)=>{
-  const {name,phone,flat,addr,cart}=req.body;
-  if(!cart||!cart.length) return res.status(400).json({success:false,message:"❌ Empty cart"});
-  let summary = cart.map(i=>`${i.qty}×${i.name}`).join(", ");
-  try{
-    await client.messages.create({
-      body:`New order from ${name}, Phone: ${phone}, ${flat}, ${addr}. Items: ${summary}`,
-      from:twilioNumber,
-      to:companyNumber
-    });
-    res.json({success:true,message:"✅ Order submitted successfully"});
-  }catch(e){res.status(500).json({success:false,message:"❌ Failed to send order to company"});}
-});
-
-app.listen(3000,()=>console.log("Server running on port 3000"));
+app.listen(port,()=>console.log(`Server running on http://localhost:${port}`));
