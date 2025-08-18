@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Harvest Sure - Order Form</title>
+<title>🌿 Harvest Sure - Order Form</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 /* Toast styles */
@@ -12,40 +12,77 @@
   right: 20px;
   background: #2563eb;
   color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  padding: 14px 22px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
   opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.3s ease-in-out;
+  transform: translateY(-30px) scale(0.9);
+  transition: all 0.4s cubic-bezier(.25,.8,.25,1);
   z-index: 9999;
-  font-weight: 500;
+  font-weight: 600;
 }
-.toast.show { opacity: 1; transform: translateY(0); }
+.toast.show { opacity: 1; transform: translateY(0) scale(1); }
 .toast.success { background: #16a34a; }
 .toast.error { background: #dc2626; }
 .toast.info { background: #2563eb; }
+
+/* Button hover animation */
+button {
+  transition: all 0.2s ease-in-out;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Input focus */
+input, select, textarea {
+  transition: all 0.3s ease-in-out;
+}
+input:focus, select:focus, textarea:focus {
+  transform: scale(1.02);
+}
+
+/* Card animation */
+.card {
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Summary item animation */
+.summary-item {
+  transition: all 0.3s ease-in-out;
+}
+.summary-item-added {
+  animation: pop 0.3s forwards;
+}
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
 </style>
 </head>
-<body class="bg-gradient-to-r from-indigo-100 to-blue-100 min-h-screen flex items-center justify-center p-2">
+<body class="bg-gradient-to-r from-indigo-100 to-blue-100 min-h-screen flex items-center justify-center p-4">
 
-<div class="max-w-lg w-full bg-white shadow-2xl rounded-xl p-6 space-y-6">
+<div class="max-w-lg w-full bg-white shadow-2xl rounded-2xl p-6 space-y-6">
 
-  <h1 class="text-3xl font-bold text-center text-blue-600">🌿 Harvest Sure Order</h1>
+  <h1 class="text-3xl font-extrabold text-center text-blue-600 animate-bounce">🌿 Harvest Sure Order</h1>
 
-  <!-- Customer Info -->
-  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 shadow space-y-3">
+  <!-- Customer Info Card -->
+  <div class="card bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 shadow-lg space-y-3">
     <h2 class="text-lg font-semibold text-gray-700">📝 Customer Information</h2>
-    <input id="custName" type="text" placeholder="Full Name" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-    <input id="custPhone" type="tel" placeholder="Phone Number" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-    <input id="custFlat" type="text" placeholder="Flat / House / Apartment No." class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-    <textarea id="custAddress" placeholder="Full Address" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+    <input id="custName" type="text" placeholder="Full Name" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
+    <input id="custPhone" type="tel" placeholder="Phone Number" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
+    <input id="custFlat" type="text" placeholder="Flat / House / Apartment No." class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
+    <textarea id="custAddress" placeholder="Full Address" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400"></textarea>
   </div>
 
-  <!-- Product Selector -->
-  <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg p-4 shadow">
+  <!-- Product Selector Card -->
+  <div class="card bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 shadow-lg">
     <label class="block text-lg font-semibold mb-2 text-gray-700">Select Product</label>
-    <select id="productSelect" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <select id="productSelect" class="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400">
       <option disabled selected>-- Choose an oil --</option>
       <option value="496" data-size="1L">Mustard Oil (Brown) - ₹496/L</option>
       <option value="610" data-size="1L">Mustard Oil (Yellow) - ₹610/L</option>
@@ -63,37 +100,36 @@
     </select>
 
     <div class="flex flex-col sm:flex-row items-center justify-between mt-4 gap-2">
-      <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
-        <button onclick="changeSelectQty(-1)" class="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600">–</button>
-        <span id="selectQty" class="w-10 text-center font-semibold">1</span>
-        <button onclick="changeSelectQty(1)" class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 text-white hover:bg-green-600">+</button>
+      <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-xl">
+        <button onclick="changeSelectQty(-1)" class="w-9 h-9 flex items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600">–</button>
+        <span id="selectQty" class="w-12 text-center font-semibold">1</span>
+        <button onclick="changeSelectQty(1)" class="w-9 h-9 flex items-center justify-center rounded-full bg-green-500 text-white hover:bg-green-600">+</button>
       </div>
-      <button onclick="addProduct()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-lg font-semibold w-full sm:w-auto">➕ Add</button>
+      <button onclick="addProduct()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-lg font-semibold w-full sm:w-auto">➕ Add</button>
     </div>
   </div>
 
-  <!-- Order Summary -->
-  <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+  <!-- Order Summary Card -->
+  <div class="card bg-gray-50 p-4 rounded-xl shadow-inner">
     <h2 class="font-semibold text-lg mb-2">🧾 Order Summary</h2>
     <div id="summary" class="text-gray-700">No items yet.</div>
     <p class="text-xs text-gray-500 mt-2">🚚 Delivery is free on orders above ₹2500.</p>
   </div>
 
-  <!-- OTP Section -->
-  <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 shadow space-y-3">
+  <!-- OTP Verification Card -->
+  <div class="card bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 shadow-lg space-y-3">
     <h2 class="text-lg font-semibold text-gray-700">📲 OTP Verification</h2>
     <div class="flex flex-col sm:flex-row gap-2">
-      <button id="sendOtpBtn" onclick="sendOtp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold">Send OTP</button>
+      <button id="sendOtpBtn" onclick="sendOtp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-semibold">Send OTP</button>
       <span id="otpTimer" class="self-center text-gray-600 font-medium"></span>
     </div>
     <div class="flex gap-2 mt-2">
-      <input id="otpInput" type="text" placeholder="Enter OTP" class="flex-1 p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-      <button onclick="verifyOtp()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-lg">Verify</button>
+      <input id="otpInput" type="text" placeholder="Enter OTP" class="flex-1 p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-green-400">
+      <button onclick="verifyOtp()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-xl">Verify</button>
     </div>
   </div>
 
-  <button onclick="submitOrder()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg shadow-lg font-bold">✅ Submit Order</button>
-
+  <button onclick="submitOrder()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl shadow-lg font-bold animate-pulse">✅ Submit Order</button>
 </div>
 
 <div id="toast" class="toast"></div>
@@ -109,26 +145,44 @@ function showToast(msg,type="info"){
   setTimeout(()=>toast.classList.remove("show"),2500);
 }
 
-function changeSelectQty(d){selectQty=Math.max(1,selectQty+d); document.getElementById("selectQty").innerText=selectQty;}
+function changeSelectQty(d){
+  selectQty=Math.max(1,selectQty+d);
+  document.getElementById("selectQty").innerText=selectQty;
+}
 
 function addProduct(){
   const select=document.getElementById("productSelect");
   if(!select.value) return showToast("❌ Please select a product!","error");
+
   const price=parseInt(select.value), size=select.selectedOptions[0].dataset.size, name=select.selectedOptions[0].innerText;
   const existing=cart.find(i=>i.name===name);
   if(existing) existing.qty+=selectQty; else cart.push({name,qty:selectQty,price,size});
+
   showToast(`✅ Added ${selectQty} × ${name}`,"success");
-  updateSummary(); selectQty=1; document.getElementById("selectQty").innerText=1; select.selectedIndex=0;
+  updateSummary(true); // true = animation
+
+  selectQty=1;
+  document.getElementById("selectQty").innerText=1;
+  select.selectedIndex=0;
 }
 
-function changeQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateSummary();}
-function removeItem(i){cart.splice(i,1);updateSummary();}
+function changeQty(i,d){
+  cart[i].qty+=d;
+  if(cart[i].qty<=0) cart.splice(i,1);
+  updateSummary();
+}
+function removeItem(i){
+  cart.splice(i,1);
+  updateSummary();
+}
 
-function updateSummary(){
+function updateSummary(animated=false){
   if(!cart.length){summaryDiv.innerHTML="No items yet."; return;}
   let subtotal=0, litres=0;
-  let list=cart.map((item,i)=>{subtotal+=item.qty*item.price; litres+=(item.size==="100ml")? item.qty*0.1:item.qty;
-    return `<li class="flex items-center justify-between mb-3 bg-white p-2 rounded shadow-sm">
+  let list=cart.map((item,i)=>{
+    subtotal+=item.qty*item.price;
+    litres+=(item.size==="100ml")? item.qty*0.1:item.qty;
+    return `<li class="flex items-center justify-between mb-3 bg-white p-2 rounded shadow-sm summary-item ${animated?"summary-item-added":""}">
       <span class="flex-1 text-sm">${item.name}</span>
       <div class="flex items-center gap-2">
       <button onclick="changeQty(${i},-1)" class="w-7 h-7 flex items-center justify-center rounded-full bg-red-500 text-white">–</button>
@@ -137,6 +191,7 @@ function updateSummary(){
       <span class="ml-3 font-medium">₹${item.qty*item.price}</span>
       <button onclick="removeItem(${i})" class="text-red-500 ml-2 hover:text-red-700">❌</button>
       </div></li>`}).join("");
+
   let delivery=(subtotal<2500)? Math.ceil(litres)*75:0;
   let packaging=Math.ceil(litres)*10, service=Math.ceil(litres)*5, total=subtotal+delivery+packaging+service;
   summaryDiv.innerHTML=`<ul>${list}</ul>
@@ -149,21 +204,24 @@ function updateSummary(){
     </div>`;
 }
 
-// OTP
+// OTP functions
 function sendOtp(){
   const phone=document.getElementById("custPhone").value.trim();
   if(!phone) return showToast("❌ Enter phone number!","error");
   fetch("/send-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone})})
-  .then(r=>r.json()).then(d=>{showToast(d.message,"success"); startOtpTimer();})
+  .then(r=>r.json()).then(d=>{showToast(d.message,d.success?"success":"error"); startOtpTimer();})
   .catch(()=>showToast("❌ Error sending OTP","error"));
 }
 
 function startOtpTimer(){
   clearInterval(otpTimerInterval);
-  let timer=60; document.getElementById("sendOtpBtn").disabled=true;
+  let timer=60;
+  const btn=document.getElementById("sendOtpBtn");
+  btn.disabled=true;
   otpTimerInterval=setInterval(()=>{
-    document.getElementById("otpTimer").innerText=`Resend in ${timer}s`; timer--;
-    if(timer<0){clearInterval(otpTimerInterval); document.getElementById("sendOtpBtn").disabled=false; document.getElementById("otpTimer").innerText="";}
+    document.getElementById("otpTimer").innerText=`Resend in ${timer}s`;
+    timer--;
+    if(timer<0){clearInterval(otpTimerInterval); btn.disabled=false; document.getElementById("otpTimer").innerText="";}
   },1000);
 }
 
