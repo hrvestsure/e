@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Harvest Sure</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,9 +21,10 @@
       }
     };
   </script>
+
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       scroll-behavior: smooth;
@@ -28,14 +33,13 @@
     /* HERO */
     .hero {
       height: 100vh;
-      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       position: relative;
-      overflow: hidden;
       padding: 20px;
+      overflow: hidden;
     }
 
     .hero::before {
@@ -58,35 +62,69 @@
     .hero-content {
       position: relative;
       z-index: 10;
+      max-width: 850px;
+      padding: 0 20px;
       animation: fadeInUp 2s ease-in-out;
     }
 
-    .hero h1 {
-      font-size: 3em;
-      margin: 0;
-      text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
+    .hero-title {
+      font-size: 4em;
+      font-weight: 800;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 25px rgba(0,0,0,0.45);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
       animation: slideDown 1.5s ease forwards;
     }
 
-    .hero p {
-      font-size: 1.3em;
-      margin-top: 15px;
+    .hero-subtitle {
+      font-size: 1.4em;
+      font-weight: 400;
+      color: #f8f8f8;
+      max-width: 650px;
+      margin: 0 auto 25px;
+      line-height: 1.8;
       opacity: 0;
-      animation: fadeIn 2s ease forwards 1s;
+      animation: fadeIn 2s ease forwards 0.8s;
     }
 
-    /* CARDS (About + Order) */
+    .hero-subtitle .highlight {
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.9);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 34px;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      color: #222;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15em;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #FFE44D, #FFB347);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0px 12px 28px rgba(0,0,0,0.4);
+    }
+
+    /* CARDS */
     .about-section, .order-section {
       border-radius: 20px;
       margin: 80px auto;
       max-width: 90%;
-      height: 450px; /* ✅ equal height desktop */
+      height: 450px;
       padding: 20px;
       box-shadow: 0px 15px 35px rgba(0,0,0,0.1);
       animation: fadeInUp 1.5s ease-in-out;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-      /* Center content */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -108,27 +146,6 @@
       max-width: 700px;
       line-height: 1.7;
       margin-bottom: 20px;
-      animation: fadeIn 1.8s ease;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-block;
-      padding: 14px 28px;
-      margin-top: 20px;
-      background: #ffcc00;
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 10px;
-      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .btn:hover {
-      background: #ffdd44;
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0px 10px 18px rgba(0,0,0,0.25);
     }
 
     /* FOOTER */
@@ -158,10 +175,15 @@
     }
 
     /* RESPONSIVE */
+    @media screen and (max-width: 1024px) {
+      .hero-title { font-size: 3.2em; }
+      .hero-subtitle { font-size: 1.2em; }
+    }
+
     @media screen and (max-width: 768px) {
       .about-section, .order-section {
         flex-direction: column;
-        height: auto;       /* 📱 auto height */
+        height: auto;
         min-height: 300px;
         padding: 40px 15px;
         margin: 40px auto;
@@ -172,18 +194,17 @@
       .about-section p, .order-section p {
         font-size: 1em;
       }
-      .btn {
-        font-size: 1em;
-        padding: 12px 22px;
-      }
-      .hero h1 { font-size: 2em; }
-      .hero p { font-size: 1em; }
+      .hero-title { font-size: 2.4em; }
+      .hero-subtitle { font-size: 1.05em; line-height: 1.6; }
+      .btn { font-size: 1em; padding: 12px 22px; }
     }
   </style>
 </head>
+
 <body class="bg-gray-100 dark:bg-gray-900">
+
   <!-- NAV -->
-  <nav class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4 shadow-lg sticky top-0 z-50 animate-fadeIn">
+  <nav class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4 shadow-lg sticky top-0 z-50">
     <span class="px-6 py-2 font-semibold text-xl text-white transition-transform transform hover:-translate-y-1 whitespace-nowrap">
       Harvest Sure&#8482;
     </span>
@@ -203,20 +224,20 @@
   </nav>
 
   <!-- MOBILE MENU -->
-  <ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg animate-fadeIn">
+  <ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
     <a href="about.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">About</li></a>
     <a href="order.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">Order</li></a>
   </ul>
 
   <!-- HERO -->
-  <section class="hero py-20">
-    <div class="hero-content text-center px-6">
-      <h2 class="text-5xl font-extrabold mb-4 fade-in text-black">
+  <section class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">
         Fresh, Pure & Natural Oils
       </h2>
-      <p class="text-lg text-gray-800 max-w-2xl mx-auto fade-in" style="animation-delay:0.2s">
-        Direct from <span class="font-semibold text-black">farms</span>, delivered to your 
-        <span class="font-semibold text-black">doorstep</span> with purity and care.
+      <p class="hero-subtitle">
+        Direct from <span class="highlight">farms</span>, delivered to your 
+        <span class="highlight">doorstep</span> with purity and care.
       </p>
       <a href="order.html" class="btn">🛒 Order Now</a>
     </div>
