@@ -82,41 +82,83 @@
     <a href="order.html">Order</a>
   </li>
 </ul>
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const navbar = document.getElementById("navbar");
 
-<nav id="navbar" class="flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-6 py-4 shadow-lg sticky top-0 z-50 transition-all duration-500 ease-in-out">
-  <span class="px-4 py-1 font-extrabold text-3xl text-white tracking-wide transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
-    Harvest Sure&#8482;
-  </span>
+  // Create a backdrop overlay for mobile menu
+  const overlay = document.createElement("div");
+  overlay.id = "menuOverlay";
+  overlay.className = "hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40";
+  document.body.appendChild(overlay);
 
-  <div class="flex-1"></div>
+  // Mobile Menu Toggle with smoother/slower animation
+  hamburger.addEventListener("click", () => {
+    const isHidden = mobileMenu.classList.contains("hidden");
 
-  <!-- Desktop Menu -->
-  <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center text-lg">
-    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transform transition px-5 py-2 rounded-full shadow hover:scale-110 duration-300">
-      <a href="index.html">Home</a>
-    </li>
-    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transform transition px-5 py-2 rounded-full shadow hover:scale-110 duration-300">
-      <a href="order.html">Order</a>
-    </li>
-  </ul>
+    if (isHidden) {
+      // Show overlay + menu
+      overlay.classList.remove("hidden");
+      mobileMenu.classList.remove("hidden");
+      mobileMenu.classList.add("flex");
+      mobileMenu.style.opacity = "0";
+      mobileMenu.style.transform = "translateY(-20px)";
+      setTimeout(() => {
+        mobileMenu.style.transition = "all 0.6s ease-in-out";
+        mobileMenu.style.opacity = "1";
+        mobileMenu.style.transform = "translateY(0)";
+      }, 10);
+    } else {
+      // Hide overlay + menu
+      mobileMenu.style.transition = "all 0.6s ease-in-out";
+      mobileMenu.style.opacity = "0";
+      mobileMenu.style.transform = "translateY(-20px)";
+      setTimeout(() => {
+        mobileMenu.classList.add("hidden");
+        mobileMenu.classList.remove("flex");
+        overlay.classList.add("hidden");
+      }, 600);
+    }
+  });
 
-  <!-- Mobile Hamburger -->
-  <button id="hamburger" class="lg:hidden text-white ml-3 hover:scale-110 transition duration-200">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd"/>
-    </svg>
-  </button>
-</nav>
+  // Close menu when clicking outside (overlay)
+  overlay.addEventListener("click", () => {
+    if (!mobileMenu.classList.contains("hidden")) {
+      hamburger.click(); // simulate close
+    }
+  });
 
-<!-- Mobile Menu -->
-<ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
-  <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transition px-5 py-2 rounded-full mb-2 hover:scale-105 duration-300">
-    <a href="index.html">Home</a>
-  </li>
-  <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transition px-5 py-2 rounded-full hover:scale-105 duration-300">
-    <a href="order.html">Order</a>
-  </li>
-</ul>
+  // Navbar Hide on Scroll (desktop + mobile)
+  let lastScroll = 0;
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > lastScroll) {
+      navbar.style.transition = "all 0.6s ease";
+      navbar.style.transform = "translateY(-100%)";
+      navbar.style.opacity = "0";
+    } else {
+      navbar.style.transition = "all 0.6s ease";
+      navbar.style.transform = "translateY(0)";
+      navbar.style.opacity = "1";
+    }
+    lastScroll = currentScroll;
+  });
+
+  // Scroll animation logic (cards fade-in)
+  function revealOnScroll() {
+    document.querySelectorAll(".reveal").forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 50) {
+        el.classList.add("active");
+      }
+    });
+  }
+  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("load", revealOnScroll);
+</script>
+
 
 
 
