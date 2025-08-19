@@ -84,11 +84,13 @@
 </ul>
 
 <!-- SCRIPT -->
+<!-- SCRIPT -->
 <script>
-  // Mobile Menu Toggle with smooth animation
   const hamburger = document.getElementById("hamburger");
   const mobileMenu = document.getElementById("mobileMenu");
+  const navbar = document.getElementById("navbar");
 
+  // Mobile Menu Toggle with smooth animation
   hamburger.addEventListener("click", () => {
     if (mobileMenu.classList.contains("hidden")) {
       mobileMenu.classList.remove("hidden");
@@ -113,24 +115,34 @@
 
   // Navbar Hide on Scroll
   let lastScroll = 0;
-  const navbar = document.getElementById("navbar");
-
   window.addEventListener("scroll", () => {
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > lastScroll) {
-      // scrolling down → fade & slide out
       navbar.style.transform = "translateY(-100%)";
       navbar.style.opacity = "0";
     } else {
-      // scrolling up → fade & slide back in
       navbar.style.transform = "translateY(0)";
       navbar.style.opacity = "1";
     }
 
     lastScroll = currentScroll;
   });
+
+  // Scroll animation logic
+  function revealOnScroll() {
+    document.querySelectorAll(".reveal").forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 50) {
+        el.classList.add("active");
+      }
+    });
+  }
+  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("load", revealOnScroll);
 </script>
+
 
 
 
