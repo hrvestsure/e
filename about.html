@@ -83,86 +83,82 @@
   </li>
 </ul>
 <script>
-  const hamburger = document.getElementById("hamburger");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const navbar = document.getElementById("navbar");
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+const navbar = document.getElementById("navbar");
+const overlay = document.createElement("div");
 
-  // Create a backdrop overlay for mobile menu
-  const overlay = document.createElement("div");
-  overlay.id = "menuOverlay";
-  overlay.className = "hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40";
-  document.body.appendChild(overlay);
+// Setup overlay
+overlay.id = "menuOverlay";
+overlay.className = "fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden";
+document.body.appendChild(overlay);
 
-  // Mobile Menu Toggle with smoother/slower animation
-  hamburger.addEventListener("click", () => {
-    const isHidden = mobileMenu.classList.contains("hidden");
+// Function to open menu
+function openMenu() {
+  overlay.classList.remove("hidden");
+  mobileMenu.classList.remove("hidden");
+  mobileMenu.classList.add("flex");
+  mobileMenu.style.opacity = "0";
+  mobileMenu.style.transform = "translateY(-20px)";
+  mobileMenu.style.transition = "all 0.6s ease-in-out";
 
-    if (isHidden) {
-      // Show overlay + menu
-      overlay.classList.remove("hidden");
-      mobileMenu.classList.remove("hidden");
-      mobileMenu.classList.add("flex");
-      mobileMenu.style.opacity = "0";
-      mobileMenu.style.transform = "translateY(-20px)";
-      setTimeout(() => {
-        mobileMenu.style.transition = "all 0.6s ease-in-out";
-        mobileMenu.style.opacity = "1";
-        mobileMenu.style.transform = "translateY(0)";
-      }, 10);
-    } else {
-      // Hide overlay + menu
-      mobileMenu.style.transition = "all 0.6s ease-in-out";
-      mobileMenu.style.opacity = "0";
-      mobileMenu.style.transform = "translateY(-20px)";
-      setTimeout(() => {
-        mobileMenu.classList.add("hidden");
-        mobileMenu.classList.remove("flex");
-        overlay.classList.add("hidden");
-      }, 600);
-    }
-  });
+  setTimeout(() => {
+    mobileMenu.style.opacity = "1";
+    mobileMenu.style.transform = "translateY(0)";
+  }, 10);
+}
 
-  // Close menu when clicking outside (overlay)
-  overlay.addEventListener("click", () => {
-    if (!mobileMenu.classList.contains("hidden")) {
-      hamburger.click(); // simulate close
-    }
-  });
+// Function to close menu
+function closeMenu() {
+  mobileMenu.style.transition = "all 0.6s ease-in-out";
+  mobileMenu.style.opacity = "0";
+  mobileMenu.style.transform = "translateY(-20px)";
+  
+  setTimeout(() => {
+    mobileMenu.classList.add("hidden");
+    mobileMenu.classList.remove("flex");
+    overlay.classList.add("hidden");
+  }, 600);
+}
 
-  // Navbar Hide on Scroll (desktop + mobile)
-  let lastScroll = 0;
-  window.addEventListener("scroll", () => {
-    const currentScroll = window.pageYOffset;
-    if (currentScroll > lastScroll) {
-      navbar.style.transition = "all 0.6s ease";
-      navbar.style.transform = "translateY(-100%)";
-      navbar.style.opacity = "0";
-    } else {
-      navbar.style.transition = "all 0.6s ease";
-      navbar.style.transform = "translateY(0)";
-      navbar.style.opacity = "1";
-    }
-    lastScroll = currentScroll;
-  });
-
-  // Scroll animation logic (cards fade-in)
-  function revealOnScroll() {
-    document.querySelectorAll(".reveal").forEach(el => {
-      const windowHeight = window.innerHeight;
-      const elementTop = el.getBoundingClientRect().top;
-      if (elementTop < windowHeight - 50) {
-        el.classList.add("active");
-      }
-    });
+// Hamburger click
+hamburger.addEventListener("click", () => {
+  if (mobileMenu.classList.contains("hidden")) {
+    openMenu();
+  } else {
+    closeMenu();
   }
-  window.addEventListener("scroll", revealOnScroll);
-  window.addEventListener("load", revealOnScroll);
+});
+
+// Click outside menu to close
+overlay.addEventListener("click", closeMenu);
+
+// Navbar shows only at top
+window.addEventListener("scroll", () => {
+  if (window.scrollY === 0) {
+    navbar.style.transition = "all 0.6s ease";
+    navbar.style.transform = "translateY(0)";
+    navbar.style.opacity = "1";
+  } else {
+    navbar.style.transition = "all 0.6s ease";
+    navbar.style.transform = "translateY(-100%)";
+    navbar.style.opacity = "0";
+  }
+});
+
+// Scroll animation for cards
+function revealOnScroll() {
+  document.querySelectorAll(".reveal").forEach(el => {
+    const windowHeight = window.innerHeight;
+    const elementTop = el.getBoundingClientRect().top;
+    if (elementTop < windowHeight - 50) {
+      el.classList.add("active");
+    }
+  });
+}
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
 </script>
-
-
-
-
-
 
   <!-- Oil Section -->
   <section class="container mx-auto p-6 text-center">
