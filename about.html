@@ -133,26 +133,6 @@
 </script>
 
 
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const mobileMenu = document.getElementById("mobileMenu");
-    hamburger.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-
-    // Scroll animation logic
-    function revealOnScroll() {
-      document.querySelectorAll(".reveal").forEach(el => {
-        const windowHeight = window.innerHeight;
-        const elementTop = el.getBoundingClientRect().top;
-        if (elementTop < windowHeight - 50) {
-          el.classList.add("active");
-        }
-      });
-    }
-    window.addEventListener("scroll", revealOnScroll);
-    window.addEventListener("load", revealOnScroll);
-  </script>
 
   <!-- Oil Section -->
   <section class="container mx-auto p-6 text-center">
