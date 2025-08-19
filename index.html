@@ -203,31 +203,82 @@
 
 <body class="bg-gray-100 dark:bg-gray-900">
 
-  <!-- NAV -->
-  <nav class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4 shadow-lg sticky top-0 z-50">
-    <span class="px-4 py-1 font-semibold text-xl text-white transition-transform transform hover:-translate-y-1 whitespace-nowrap">
-      Harvest Sure&#8482;
-    </span>
+<!-- NAV -->
+<nav id="navbar" class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4 shadow-lg sticky top-0 z-50 transition-all duration-500 ease-in-out">
+  <!-- Logo / Brand -->
+  <span class="px-4 py-1 font-extrabold text-3xl lg:text-4xl tracking-wide text-white transition-transform transform hover:-translate-y-1 whitespace-nowrap drop-shadow-lg">
+    Harvest Sure&#8482;
+  </span>
 
-    <div class="flex-1"></div>
+  <div class="flex-1"></div>
 
-    <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center w-auto">
-      <a href="about.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">About</li></a>
-      <a href="order.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">Order</li></a>
-    </ul>
-
-    <button id="hamburger" class="lg:hidden text-white ml-4 hover:scale-110 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd" />
-      </svg>
-    </button>
-  </nav>
-
-  <!-- MOBILE MENU -->
-  <ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
-    <a href="about.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">About</li></a>
-    <a href="order.html"><li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">Order</li></a>
+  <!-- Desktop Menu -->
+  <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center w-auto">
+    <a href="about.html">
+      <li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">
+        About
+      </li>
+    </a>
+    <a href="order.html">
+      <li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">
+        Order
+      </li>
+    </a>
   </ul>
+
+  <!-- Hamburger Button -->
+  <button id="hamburger" class="lg:hidden text-white ml-4 hover:scale-110 transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd" />
+    </svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
+  <a href="about.html">
+    <li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">
+      About
+    </li>
+  </a>
+  <a href="order.html">
+    <li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">
+      Order
+    </li>
+  </a>
+</ul>
+
+<!-- SCRIPT -->
+<script>
+  // Mobile Menu Toggle
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  hamburger.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+
+  // Navbar Hide on Scroll
+  let lastScroll = 0;
+  const navbar = document.getElementById("navbar");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll) {
+      // scrolling down → fade & slide out
+      navbar.style.transform = "translateY(-100%)";
+      navbar.style.opacity = "0";
+    } else {
+      // scrolling up → fade & slide back in
+      navbar.style.transform = "translateY(0)";
+      navbar.style.opacity = "1";
+    }
+
+    lastScroll = currentScroll;
+  });
+</script>
+
 
   <!-- HERO -->
   <section class="hero">
