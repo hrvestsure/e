@@ -16,91 +16,70 @@
             pulseSlow: "pulse 4s infinite",
           },
           keyframes: {
-            fadeIn: {
-              "0%": { opacity: "0" },
-              "100%": { opacity: "1" },
-            },
-            slideUp: {
-              "0%": { transform: "translateY(30px)", opacity: "0" },
-              "100%": { transform: "translateY(0)", opacity: "1" },
-            },
+            fadeIn: { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
+            slideUp: { "0%": { transform: "translateY(30px)", opacity: "0" }, "100%": { transform: "translateY(0)", opacity: "1" } },
           },
         },
       },
     };
   </script>
   <style>
-    body {
-      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    /* Scroll animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1s ease;
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
 
- <!-- NAV -->
-<nav id="navbar" class="flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-6 py-4 shadow-lg sticky top-0 z-50 transition-all duration-500 ease-in-out">
-  <span class="px-4 py-1 font-extrabold text-3xl text-white tracking-wide transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
+<!-- NAVBAR -->
+<nav id="navbar" class="flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-4 py-3 shadow-lg fixed top-0 z-50 transition-transform duration-500">
+  <span class="font-extrabold text-3xl text-white tracking-wide transform hover:-translate-y-1 hover:scale-105 transition duration-300">
     Harvest Sure&#8482;
   </span>
 
-  <div class="flex-1"></div>
-
   <!-- Desktop Menu -->
   <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center text-lg">
-    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transform transition px-5 py-2 rounded-full shadow hover:scale-110 duration-300">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
       <a href="index.html">Home</a>
     </li>
-    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transform transition px-5 py-2 rounded-full shadow hover:scale-110 duration-300">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
       <a href="order.html">Order</a>
     </li>
   </ul>
 
-<!-- Mobile Hamburger -->
-<button id="hamburger" class="lg:hidden w-full text-white py-4 px-6 flex justify-between items-center bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 shadow-lg hover:scale-105 transition duration-300">
-  <span class="font-bold text-xl">Menu</span>
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
-    <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd"/>
-  </svg>
-</button>
+  <!-- Mobile Hamburger -->
+  <button id="hamburger" class="lg:hidden w-full max-w-xs ml-auto flex justify-between items-center bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white py-4 px-6 shadow-lg hover:scale-105 transition duration-300">
+    <span class="font-bold text-xl">Menu</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd"/>
+    </svg>
+  </button>
 
-<!-- Mobile Menu -->
-<ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
-  <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transition px-5 py-2 rounded-full mb-2 hover:scale-105 duration-300">
-    <a href="index.html">Home</a>
-  </li>
-  <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 transition px-5 py-2 rounded-full hover:scale-105 duration-300">
-    <a href="order.html">Order</a>
-  </li>
-</ul>
+  <!-- Mobile Menu -->
+  <ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-full left-0 z-50 shadow-lg space-y-2">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="index.html">Home</a></li>
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="order.html">Order</a></li>
+  </ul>
+</nav>
+
 <script>
 const hamburger = document.getElementById("hamburger");
 const mobileMenu = document.getElementById("mobileMenu");
 const navbar = document.getElementById("navbar");
 const overlay = document.createElement("div");
 
-// Setup overlay
+// Overlay for closing
 overlay.id = "menuOverlay";
 overlay.className = "fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden";
 document.body.appendChild(overlay);
 
-// Function to open menu
+// Open mobile menu
 function openMenu() {
   overlay.classList.remove("hidden");
   mobileMenu.classList.remove("hidden");
-  mobileMenu.classList.add("flex");
   mobileMenu.style.opacity = "0";
   mobileMenu.style.transform = "translateY(-20px)";
-  mobileMenu.style.transition = "all 0.6s ease-in-out";
+  mobileMenu.style.transition = "all 0.4s ease";
 
   setTimeout(() => {
     mobileMenu.style.opacity = "1";
@@ -108,52 +87,42 @@ function openMenu() {
   }, 10);
 }
 
-// Function to close menu
+// Close mobile menu
 function closeMenu() {
-  mobileMenu.style.transition = "all 0.6s ease-in-out";
   mobileMenu.style.opacity = "0";
   mobileMenu.style.transform = "translateY(-20px)";
-  
   setTimeout(() => {
     mobileMenu.classList.add("hidden");
-    mobileMenu.classList.remove("flex");
     overlay.classList.add("hidden");
-  }, 600);
+  }, 400);
 }
 
-// Hamburger click
+// Toggle hamburger
 hamburger.addEventListener("click", () => {
-  if (mobileMenu.classList.contains("hidden")) {
-    openMenu();
-  } else {
-    closeMenu();
-  }
+  mobileMenu.classList.contains("hidden") ? openMenu() : closeMenu();
 });
 
-// Click outside menu to close
+// Click outside
 overlay.addEventListener("click", closeMenu);
 
-// Navbar shows only at top
+// Navbar hide on scroll down, show on top
+let lastScroll = 0;
 window.addEventListener("scroll", () => {
-  if (window.scrollY === 0) {
-    navbar.style.transition = "all 0.6s ease";
+  if (window.scrollY <= 0) {
     navbar.style.transform = "translateY(0)";
     navbar.style.opacity = "1";
   } else {
-    navbar.style.transition = "all 0.6s ease";
     navbar.style.transform = "translateY(-100%)";
     navbar.style.opacity = "0";
   }
 });
 
-// Scroll animation for cards
+// Scroll reveal
 function revealOnScroll() {
   document.querySelectorAll(".reveal").forEach(el => {
     const windowHeight = window.innerHeight;
     const elementTop = el.getBoundingClientRect().top;
-    if (elementTop < windowHeight - 50) {
-      el.classList.add("active");
-    }
+    if (elementTop < windowHeight - 50) el.classList.add("active");
   });
 }
 window.addEventListener("scroll", revealOnScroll);
