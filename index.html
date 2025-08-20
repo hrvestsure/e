@@ -32,7 +32,7 @@
 
     /* HERO */
     .hero {
-      height: 123vh; /* 1.5x screen height */
+      height: 121vh; /* 1.5x screen height */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -321,7 +321,7 @@ function adjustLayout() {
 
   if (navbar && hero) {
     const navHeight = navbar.offsetHeight;
-    hero.style.height = `calc(123vh - ${navHeight}px)`; // 1.5x screen height
+    hero.style.height = `calc(121vh - ${navHeight}px)`; // 1.5x screen height
     hero.style.marginTop = navHeight + "px";
   }
 }
