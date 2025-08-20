@@ -6,39 +6,33 @@
   <title>Harvest Sure</title>
 
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            clifford: '#da373d',
+          }
+        }
+      }
+    };
+  </script>
 
   <style>
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
-    }
-
-    /* NAVBAR */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-      color: #333;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
     }
 
     /* HERO */
     .hero {
-      height: 140vh; /* 1.4× the screen height */
+      height: 135vh; /* 1.5x screen height */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -48,72 +42,291 @@
       overflow: hidden;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      color: #1a202c;
+    .hero::before {
+      content: "";
+      background: url('image.png') no-repeat center center / cover;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.9;
+      z-index: -1;
+      transform: scale(1.1);
+      animation: zoomBg 15s ease-in-out infinite alternate;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      color: #4a5568;
-      margin-top: 10px;
+    @keyframes zoomBg {
+      from { transform: scale(1.1); }
+      to { transform: scale(1.2); }
     }
 
-    .hero button {
-      margin-top: 20px;
-      background: linear-gradient(to right, #38a169, #2f855a);
-      color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 850px;
+      padding: 0 20px;
+      animation: fadeInUp 2s ease-in-out;
+    }
+
+    .hero-title {
+      font-size: 4em;
+      font-weight: 800;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 25px rgba(0,0,0,0.45);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      animation: slideDown 1.5s ease forwards;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4em;
+      font-weight: 400;
+      color: #f8f8f8;
+      max-width: 650px;
+      margin: 0 auto 25px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 0.8s;
+    }
+
+    .hero-subtitle .highlight {
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.9);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 34px;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      color: #222;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15em;
+      border-radius: 12px;
       transition: all 0.3s ease;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
     }
 
-    .hero button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    .btn:hover {
+      background: linear-gradient(90deg, #FFE44D, #FFB347);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0px 12px 28px rgba(0,0,0,0.4);
+    }
+
+    /* CARDS */
+    .about-section, .order-section {
+      border-radius: 20px;
+      margin: 80px auto;
+      max-width: 90%;
+      height: 450px;
+      padding: 20px;
+      box-shadow: 0px 15px 35px rgba(0,0,0,0.1);
+      animation: fadeInUp 1.5s ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .about-section:hover, .order-section:hover {
+      transform: translateY(-10px) scale(1.01);
+      box-shadow: 0px 20px 45px rgba(0,0,0,0.15);
+    }
+
+    .about-section h2, .order-section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .about-section p, .order-section p {
+      font-size: 1.2em;
+      max-width: 700px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #1b3548;
+      color: white;
+      font-size: 0.95em;
+      animation: fadeIn 2s ease-in;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media screen and (max-width: 1024px) {
+      .hero-title { font-size: 3.2em; }
+      .hero-subtitle { font-size: 1.2em; }
+    }
+
+    @media screen and (max-width: 768px) {
+      .about-section, .order-section {
+        flex-direction: column;
+        height: auto;
+        min-height: 300px;
+        padding: 40px 15px;
+        margin: 40px auto;
+      }
+      .about-section h2, .order-section h2 {
+        font-size: 1.8em;
+      }
+      .about-section p, .order-section p {
+        font-size: 1em;
+      }
+      .hero-title { font-size: 2.4em; }
+      .hero-subtitle { font-size: 1.05em; line-height: 1.6; }
+      .btn { font-size: 1em; padding: 12px 22px; }
+    }
+
+    /* Navbar animations */
+    #navbar {
+      transition: transform 1s ease, opacity 1s ease;
+    }
+    #navbar.hide {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    #navbar.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile menu slide animation */
+    #mobileMenu {
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+    }
+    #mobileMenu.show {
+      transform: translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
-<body>
-  <!-- NAVBAR -->
-  <div id="navbar" class="navbar">
-    <div class="logo">🌿 Harvest Sure</div>
-    <div class="links">
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </div>
+<body class="bg-gray-100 dark:bg-gray-900">
+
+<!-- NAVBAR -->
+<nav id="navbar" class="show flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-4 py-3 shadow-lg fixed top-0 z-50">
+  <span class="font-extrabold text-3xl text-white tracking-wide transform hover:-translate-y-1 hover:scale-105 transition duration-300">
+    Harvest Sure&#8482;
+  </span>
+
+  <!-- Desktop Menu -->
+  <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center text-lg">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
+      <a href="index.html">Home</a>
+    </li>
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
+      <a href="order.html">Order</a>
+    </li>
+  </ul>
+
+  <!-- Hamburger -->
+  <button id="hamburger" class="lg:hidden text-white p-2 rounded-md hover:bg-white/20 transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- Mobile Menu -->
+  <ul id="mobileMenu" class="absolute top-full left-0 w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 shadow-lg space-y-2 hidden flex-col items-center z-50">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="index.html">Home</a></li>
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="order.html">Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h2 class="hero-title">
+      Fresh, Pure & Natural Oils
+    </h2>
+    <p class="hero-subtitle">
+      Direct from <span class="highlight">farms</span>, delivered to your 
+      <span class="highlight">doorstep</span> with purity and care.
+    </p>
+    <a href="order.html" class="btn">🛒 Order Now</a>
   </div>
+</section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div>
-      <h1>Pure & Natural Oils, Harvested with Care</h1>
-      <p>Experience the freshness of nature in every drop.</p>
-      <button>🛒 Order Now</button>
-    </div>
-  </section>
+<!-- ABOUT -->
+<section id="about" class="about-section bg-[#eaf4f4]">
+  <div>
+    <h2>Who We Are</h2>
+    <p>At <strong>Harvest Sure</strong>, we are dedicated to providing high-quality, natural cold pressed oils sourced from the finest ingredients. Our mission is to bring purity and health to every home.</p>
+    <a href="about.html" class="btn">About Us</a>
+  </div>
+</section>
 
-  <script>
-    function adjustLayout() {
-      const navbar = document.getElementById("navbar");
-      const hero = document.querySelector(".hero");
+<!-- ORDER -->
+<section id="order" class="order-section bg-orange-500 text-white">
+  <div>
+    <h2>Order Your Oil</h2>
+    <p>Get premium, organic oils delivered to your doorstep.</p>
+    <a href="order.html" class="btn">🛒 Order Now</a>
+  </div>
+</section>
 
-      if (navbar && hero) {
-        const navHeight = navbar.offsetHeight;
-        hero.style.height = `calc(140vh - ${navHeight}px)`; // 1.4× height
-        hero.style.marginTop = navHeight + "px";
-      }
-    }
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Eugene Biotech PVT. LTD. All rights reserved.</p>
+</footer>
 
-    window.addEventListener("load", adjustLayout);
-    window.addEventListener("resize", adjustLayout);
-  </script>
+<script>
+// Mobile menu toggle
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+hamburger.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+  mobileMenu.classList.toggle("show");
+});
+
+// Navbar hide/show on scroll
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.remove("show");
+    navbar.classList.add("hide");
+  } else {
+    navbar.classList.remove("hide");
+    navbar.classList.add("show");
+  }
+});
+
+// Adjust hero dynamically so it never gets overlapped
+function adjustLayout() {
+  const navbar = document.getElementById("navbar");
+  const hero = document.querySelector(".hero");
+
+  if (navbar && hero) {
+    const navHeight = navbar.offsetHeight;
+    hero.style.height = `calc(150vh - ${navHeight}px)`; // 1.5x screen height
+    hero.style.marginTop = navHeight + "px";
+  }
+}
+window.addEventListener("load", adjustLayout);
+window.addEventListener("resize", adjustLayout);
+</script>
 </body>
 </html>
