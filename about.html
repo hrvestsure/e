@@ -77,63 +77,38 @@
   </ul>
 </nav>
 
+<style>
+  /* Navbar smooth transition */
+  #navbar {
+    transition: transform 1s ease, opacity 1s ease;
+  }
+</style>
+
 <script>
-const hamburger = document.getElementById("hamburger");
-const mobileMenu = document.getElementById("mobileMenu");
 const navbar = document.getElementById("navbar");
-const overlay = document.createElement("div");
-
-// Overlay
-overlay.id = "menuOverlay";
-overlay.className = "fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden";
-document.body.appendChild(overlay);
-
-// Open
-function openMenu() {
-  mobileMenu.classList.remove("hidden", "slide-out");
-  setTimeout(() => mobileMenu.classList.add("slide-in"), 10);
-  overlay.classList.remove("hidden");
-}
-
-// Close
-function closeMenu() {
-  mobileMenu.classList.remove("slide-in");
-  mobileMenu.classList.add("slide-out");
-  setTimeout(() => {
-    mobileMenu.classList.add("hidden");
-    overlay.classList.add("hidden");
-  }, 500);
-}
-
-// Toggle
-hamburger.addEventListener("click", () => {
-  mobileMenu.classList.contains("hidden") ? openMenu() : closeMenu();
-});
-overlay.addEventListener("click", closeMenu);
-
-// Navbar auto-hide
 let lastScroll = 0;
+
 window.addEventListener("scroll", () => {
-  if (window.scrollY <= 0) {
+  const currentScroll = window.scrollY;
+
+  if (currentScroll <= 0) {
+    // At the top -> show
     navbar.style.transform = "translateY(0)";
     navbar.style.opacity = "1";
-  } else {
+  } else if (currentScroll > lastScroll) {
+    // Scrolling down -> hide
     navbar.style.transform = "translateY(-100%)";
     navbar.style.opacity = "0";
+  } else {
+    // Scrolling up -> show again
+    navbar.style.transform = "translateY(0)";
+    navbar.style.opacity = "1";
   }
-});
 
-// Scroll reveal
-function revealOnScroll() {
-  document.querySelectorAll(".reveal").forEach(el => {
-    const windowHeight = window.innerHeight;
-    const elementTop = el.getBoundingClientRect().top;
-    if (elementTop < windowHeight - 50) el.classList.add("active");
-  });
-}
-window.addEventListener("scroll", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
+  lastScroll = currentScroll;
+});
 </script>
+
 
 <!-- Oil Section -->
 <section class="container mx-auto p-6 text-center">
