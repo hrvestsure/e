@@ -200,85 +200,92 @@
     }
   </style>
 </head>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
 
+    /* Navbar hide/show animation */
+    #navbar {
+      transition: transform 1s ease, opacity 1s ease;
+    }
+    #navbar.hide {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    #navbar.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile menu slide animation */
+    #mobileMenu {
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+    }
+    #mobileMenu.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
 <body class="bg-gray-100 dark:bg-gray-900">
 
-<!-- NAV -->
-<nav id="navbar" class="flex items-center justify-between w-full h-auto bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 p-4 shadow-lg sticky top-0 z-50 transition-all duration-500 ease-in-out">
-  <!-- Logo / Brand -->
-  <span class="px-4 py-1 font-extrabold text-3xl lg:text-4xl tracking-wide text-white transition-transform transform hover:-translate-y-1 whitespace-nowrap drop-shadow-lg">
+<!-- NAVBAR -->
+<nav id="navbar" class="show flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-4 py-3 shadow-lg fixed top-0 z-50">
+  <span class="font-extrabold text-3xl text-white tracking-wide transform hover:-translate-y-1 hover:scale-105 transition duration-300">
     Harvest Sure&#8482;
   </span>
 
-  <div class="flex-1"></div>
-
   <!-- Desktop Menu -->
-  <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center w-auto">
-    <a href="about.html">
-      <li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">
-        About
-      </li>
-    </a>
-    <a href="order.html">
-      <li class="border-2 border-slate-200 hover:border-orange-500 transition transform text-white hover:bg-orange-500 hover:-translate-y-1 px-4 rounded-full py-[5px] shadow-md">
-        Order
-      </li>
-    </a>
+  <ul id="desktopMenu" class="hidden lg:flex lg:flex-row lg:space-x-6 lg:items-center text-lg">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
+      <a href="index.html">Home</a>
+    </li>
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full shadow hover:scale-110 transition duration-300">
+      <a href="order.html">Order</a>
+    </li>
   </ul>
 
-  <!-- Hamburger Button -->
-  <button id="hamburger" class="lg:hidden text-white ml-4 hover:scale-110 transition">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zM3 9h14a1 1 0 110 2H3a1 1 0 010-2zM3 13h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd" />
+  <!-- Hamburger -->
+  <button id="hamburger" class="lg:hidden text-white p-2 rounded-md hover:bg-white/20 transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   </button>
+
+  <!-- Mobile Menu -->
+  <ul id="mobileMenu" class="absolute top-full left-0 w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 shadow-lg space-y-2 hidden flex-col items-center z-50">
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="index.html">Home</a></li>
+    <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="order.html">Order</a></li>
+  </ul>
 </nav>
-
-<!-- MOBILE MENU -->
-<ul id="mobileMenu" class="hidden flex-col items-center w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 absolute top-16 left-0 z-50 shadow-lg">
-  <a href="about.html">
-    <li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">
-      About
-    </li>
-  </a>
-  <a href="order.html">
-    <li class="border-2 border-slate-200 hover:border-orange-500 transition transform hover:-translate-y-1 px-4 rounded-full py-[5px]">
-      Order
-    </li>
-  </a>
-</ul>
-
-<!-- SCRIPT -->
 <script>
-  // Mobile Menu Toggle
-  const hamburger = document.getElementById("hamburger");
-  const mobileMenu = document.getElementById("mobileMenu");
+// Mobile menu toggle
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+hamburger.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+  mobileMenu.classList.toggle("show");
+});
 
-  hamburger.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-
-  // Navbar Hide on Scroll
-  let lastScroll = 0;
-  const navbar = document.getElementById("navbar");
-
-  window.addEventListener("scroll", () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > lastScroll) {
-      // scrolling down → fade & slide out
-      navbar.style.transform = "translateY(-100%)";
-      navbar.style.opacity = "0";
-    } else {
-      // scrolling up → fade & slide back in
-      navbar.style.transform = "translateY(0)";
-      navbar.style.opacity = "1";
-    }
-
-    lastScroll = currentScroll;
-  });
+// Navbar only hide after leaving top, show again at top
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.remove("show");
+    navbar.classList.add("hide");
+  } else {
+    navbar.classList.remove("hide");
+    navbar.classList.add("show");
+  }
+});
 </script>
-
+<div>
+<section class="container mx-auto p-6 text-center">
+  <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-8 animate-fadeIn"></h1>
+</section>
+</div>
 
   <!-- HERO -->
   <section class="hero">
