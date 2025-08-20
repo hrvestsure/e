@@ -5,49 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Harvest Sure 🌿</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          animation: {
-            fadeIn: "fadeIn 1s ease-in-out",
-            slideUp: "slideUp 1s ease-out",
-            pulseSlow: "pulse 4s infinite",
-          },
-          keyframes: {
-            fadeIn: { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
-            slideUp: { "0%": { transform: "translateY(30px)", opacity: "0" }, "100%": { transform: "translateY(0)", opacity: "1" } },
-          },
-        },
-      },
-    };
-  </script>
   <style>
     body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
-    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* Slide Animations */
+    /* Navbar hide/show animation */
+    #navbar {
+      transition: transform 1s ease, opacity 1s ease;
+    }
+    #navbar.hide {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    #navbar.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile menu slide animation */
     #mobileMenu {
       transform: translateY(-100%);
       opacity: 0;
       transition: all 0.5s ease-in-out;
     }
-    #mobileMenu.slide-in {
-      transform: translateY(0) !important;
-      opacity: 1 !important;
-    }
-    #mobileMenu.slide-out {
-      transform: translateY(-100%) !important;
-      opacity: 0 !important;
+    #mobileMenu.show {
+      transform: translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
 
 <!-- NAVBAR -->
-<nav id="navbar" class="flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-4 py-3 shadow-lg fixed top-0 z-50 transition-transform duration-500">
+<nav id="navbar" class="show flex items-center justify-between w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 px-4 py-3 shadow-lg fixed top-0 z-50">
   <span class="font-extrabold text-3xl text-white tracking-wide transform hover:-translate-y-1 hover:scale-105 transition duration-300">
     Harvest Sure&#8482;
   </span>
@@ -70,42 +59,30 @@
   </button>
 
   <!-- Mobile Menu -->
-  <ul id="mobileMenu" 
-      class="absolute top-full left-0 w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 shadow-lg space-y-2 hidden flex-col items-center z-50">
+  <ul id="mobileMenu" class="absolute top-full left-0 w-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 text-white text-lg p-4 shadow-lg space-y-2 hidden flex-col items-center z-50">
     <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="index.html">Home</a></li>
     <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="order.html">Order</a></li>
   </ul>
 </nav>
-
-<style>
-  /* Navbar smooth transition */
-  #navbar {
-    transition: transform 1s ease, opacity 1s ease;
-  }
-</style>
-
 <script>
+// Mobile menu toggle
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+hamburger.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+  mobileMenu.classList.toggle("show");
+});
+
+// Navbar only hide after leaving top, show again at top
 const navbar = document.getElementById("navbar");
-let lastScroll = 0;
-
 window.addEventListener("scroll", () => {
-  const currentScroll = window.scrollY;
-
-  if (currentScroll <= 0) {
-    // At the top -> show
-    navbar.style.transform = "translateY(0)";
-    navbar.style.opacity = "1";
-  } else if (currentScroll > lastScroll) {
-    // Scrolling down -> hide
-    navbar.style.transform = "translateY(-100%)";
-    navbar.style.opacity = "0";
+  if (window.scrollY > 50) {
+    navbar.classList.remove("show");
+    navbar.classList.add("hide");
   } else {
-    // Scrolling up -> show again
-    navbar.style.transform = "translateY(0)";
-    navbar.style.opacity = "1";
+    navbar.classList.remove("hide");
+    navbar.classList.add("show");
   }
-
-  lastScroll = currentScroll;
 });
 </script>
 
