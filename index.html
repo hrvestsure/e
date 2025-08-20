@@ -32,7 +32,7 @@
 
     /* HERO */
     .hero {
-      height: 100vh;
+      height: 100vh; /* will be recalculated with JS */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -198,13 +198,8 @@
       .hero-subtitle { font-size: 1.05em; line-height: 1.6; }
       .btn { font-size: 1em; padding: 12px 22px; }
     }
-  </style>
-</head>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
 
-    /* Navbar hide/show animation */
+    /* Navbar animations */
     #navbar {
       transition: transform 1s ease, opacity 1s ease;
     }
@@ -260,6 +255,44 @@
     <li class="border border-slate-200 hover:border-slate-800 text-white hover:bg-orange-500 px-5 py-2 rounded-full hover:scale-105 transition duration-300"><a href="order.html">Order</a></li>
   </ul>
 </nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h2 class="hero-title">
+      Fresh, Pure & Natural Oils
+    </h2>
+    <p class="hero-subtitle">
+      Direct from <span class="highlight">farms</span>, delivered to your 
+      <span class="highlight">doorstep</span> with purity and care.
+    </p>
+    <a href="order.html" class="btn">🛒 Order Now</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section bg-[#eaf4f4]">
+  <div>
+    <h2>Who We Are</h2>
+    <p>At <strong>Harvest Sure</strong>, we are dedicated to providing high-quality, natural cold pressed oils sourced from the finest ingredients. Our mission is to bring purity and health to every home.</p>
+    <a href="about.html" class="btn">About Us</a>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order" class="order-section bg-orange-500 text-white">
+  <div>
+    <h2>Order Your Oil</h2>
+    <p>Get premium, organic oils delivered to your doorstep.</p>
+    <a href="order.html" class="btn">🛒 Order Now</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Eugene Biotech PVT. LTD. All rights reserved.</p>
+</footer>
+
 <script>
 // Mobile menu toggle
 const hamburger = document.getElementById("hamburger");
@@ -269,7 +302,7 @@ hamburger.addEventListener("click", () => {
   mobileMenu.classList.toggle("show");
 });
 
-// Navbar only hide after leaving top, show again at top
+// Navbar hide/show on scroll
 const navbar = document.getElementById("navbar");
 window.addEventListener("scroll", () => {
   if (window.scrollY > 50) {
@@ -280,50 +313,20 @@ window.addEventListener("scroll", () => {
     navbar.classList.add("show");
   }
 });
+
+// Adjust hero dynamically so it never gets overlapped
+function adjustLayout() {
+  const navbar = document.getElementById("navbar");
+  const hero = document.querySelector(".hero");
+
+  if (navbar && hero) {
+    const navHeight = navbar.offsetHeight;
+    hero.style.height = `calc(100vh - ${navHeight}px)`;
+    hero.style.marginTop = navHeight + "px";
+  }
+}
+window.addEventListener("load", adjustLayout);
+window.addEventListener("resize", adjustLayout);
 </script>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <h2 class="hero-title">
-        Fresh, Pure & Natural Oils
-      </h2>
-      <p class="hero-subtitle">
-        Direct from <span class="highlight">farms</span>, delivered to your 
-        <span class="highlight">doorstep</span> with purity and care.
-      </p>
-      <a href="order.html" class="btn">🛒 Order Now</a>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about-section bg-[#eaf4f4]">
-    <div>
-      <h2>Who We Are</h2>
-      <p>At <strong>Harvest Sure</strong>, we are dedicated to providing high-quality, natural cold pressed oils sourced from the finest ingredients. Our mission is to bring purity and health to every home.</p>
-      <a href="about.html" class="btn">About Us</a>
-    </div>
-  </section>
-
-  <!-- ORDER -->
-  <section id="order" class="order-section bg-orange-500 text-white">
-    <div>
-      <h2>Order Your Oil</h2>
-      <p>Get premium, organic oils delivered to your doorstep.</p>
-      <a href="order.html" class="btn">🛒 Order Now</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Eugene Biotech PVT. LTD. All rights reserved.</p>
-  </footer>
-
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  </script>
 </body>
 </html>
